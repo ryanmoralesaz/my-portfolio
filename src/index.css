@@ -1,40 +1,91 @@
 @import "tailwindcss";
 
-html, body {
-    margin: 0;
-    padding: 0;
-    font-family: "Space Grotesk", sans-serif;
-    background: #0a0a0a;
-    color: #f3f4f6;
+:root {
+  /* background colors */
+  --flame: 215 84 18;
+  --vanilla: 247 232 164;
+  --oldlace: 255 244 228;
+  --electricblue: 110 250 251;
+  --bluemunsell: 0 145 173;
+  --rosepink: 255 87 187;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Space Grotesk", sans-serif;
+  background: #0a0a0a;
+  color: #f3f4f6;
 }
 
 @layer utilities {
+  /*fonts*/
+  .font-bebas {
+    font-family: "Bebas Neue", sans-serif;
+  }
+  .font-encode {
+    font-family: "Encode Sans SC", sans-serif;
+  }
+  .font-michroma {
+    font-family: "Michroma", monospace;
+  }
 
-    @keyframes blink {
-        0%, 100% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0;
-        }
+  .text-flame {
+    color: #d75412;
+  }
+  .text-vanilla {
+    color: #f7e8a4;
+  }
+  .text-oldlace {
+    color: #fff4e4;
+  }
+  .text-electricblue {
+    color: #6efafb;
+  }
+  .text-bluemunsell {
+    color: #0091ad;
+  }
+  .text-rosepink {
+    color: #ff57bb;
+  }
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
     }
+    50% {
+      opacity: 0;
+    }
+  }
 
-    .animate-blink {
-        animation: blink 0.8s step-end infinite;
-    }
+  .animate-blink {
+    animation: blink 0.8s step-end infinite;
+  }
 
-    @keyframes loading {
-        0% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(250%);
-        }
+  @keyframes loading {
+    0% {
+      transform: translateX(-100%);
     }
+    100% {
+      transform: translateX(250%);
+    }
+  }
 
-    .animate-loading-bar {
-        animation: loading 0.8s ease infinite;
-    }
+  .animate-loading-bar {
+    animation: loading 0.8s ease infinite;
+  }
 }
 
-
+@layer components {
+  .nav-link {
+    color: rgb(var(--flame));
+    transition: color 0.15s ease-in-out;
+    padding-right: 1em;
+    margin-right: 1em;
+    border-right: 1px solid rgb(var(--flame) / 0.8);
+  }
+  .nav-link:hover {
+    color: rgb(var(--bluemunsell));
+  }
+}
