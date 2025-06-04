@@ -1,30 +1,29 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 
-export const LoadingScreen = ({ onComplete } ) => {
+export const LoadingScreen = ({ onComplete }) => {
   const [text, setText] = useState("");
-  const fullText = "<Hello World />";
+  const fullText = "How are you, today?";
 
-  useEffect(()=>{
+  useEffect(() => {
     let index = 0;
-    const interval = setInterval(()=>{
+    const interval = setInterval(() => {
       setText(fullText.substring(0, index));
-      index++;;
+      index++;
 
       if (index > fullText.length) {
         clearInterval(interval);
 
         setTimeout(() => {
           onComplete();
-
         }, 1000);
       }
     }, 100);
 
     return () => clearInterval(interval);
   }, [onComplete]);
-  return ( 
-    <div className="fixed inset-0 z-50 bg-black text-gray-100 flex flex-col items-center justify-center">
-      <div className="mb-4 text-4xl font-mono font-bold">
+  return (
+    <div className="fixed inset-0 z-50 bg-[rgba(var(--oldlace)/1)] text-bluemunsell flex flex-col items-center justify-center">
+      <div className="mb-4 text-4xl font-michroma font-bold">
         {text} <span className="animate-blink ml-1">|</span>
       </div>
 
@@ -36,4 +35,3 @@ export const LoadingScreen = ({ onComplete } ) => {
     </div>
   );
 };
-

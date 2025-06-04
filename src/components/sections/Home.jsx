@@ -1,22 +1,140 @@
+import { useMemo, useState, useEffect } from "react";
+
 export const Home = () => {
+  const words = useMemo(
+    () => [
+      "Educator",
+      "Teacher",
+      "Coach",
+      "Mentor",
+      "Advisor",
+      "Leader",
+      "Trainer",
+      "Professional",
+      "Instructor",
+      "Programmer",
+    ],
+    []
+  );
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const [scrollY, setScrollY] = useState(0);
+
+  const getArticle = (word) => {
+    const vowels = ["a", "e", "i", "o", "u"];
+    return vowels.includes(word[0].toLowerCase()) ? "an" : "a";
+  };
+
+  // Parallax scroll effect
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const currentWord = words[currentWordIndex];
+
+    const timer = setTimeout(
+      () => {
+        if (!isDeleting && !isPaused) {
+          if (currentText.length < currentWord.length) {
+            setCurrentText(currentWord.substring(0, currentText.length + 1));
+          } else {
+            setIsPaused(true);
+          }
+        } else if (isPaused) {
+          setIsPaused(false);
+          setIsDeleting(true);
+        } else if (isDeleting) {
+          if (currentText.length > 0) {
+            setCurrentText(currentText.substring(0, currentText.length - 1));
+          } else {
+            setIsDeleting(false);
+            setCurrentWordIndex((prev) => (prev + 1) % words.length);
+          }
+        }
+      },
+
+      isPaused ? 1500 : isDeleting ? 50 : 100
+    );
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, isPaused, currentWordIndex, words]);
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative">
-      <div className="text-center z-10 px-4">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent gradient-text leading-right">
-          Hi, I'm Ryan!
+    <section
+      id="home"
+      className="relative w-full h-[420px] flex items-start justify-center overflow-hidden"
+    >
+      {/* Moving background image */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url('/juliacameron.jpg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          transform: `translateY(${scrollY * 0.3}px)`,
+        }}
+      ></div>
+      {/* Electric blue filter overlay */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundColor: "#6efafb",
+          mixBlendMode: "multiply",
+          opacity: 0.7,
+        }}
+      ></div>
+
+      {/* White overlay for upper third */}
+      <div
+        className="absolute top-0 left-0 right-0 h-1/2"
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
+        }}
+      ></div>
+
+      {/* Text content */}
+      <div className="relative z-10 text-center pt-16 mt-5">
+        <h1 className="font-michroma text-5xl mb-2">
+          <span className="text-bluemunsell">Hello, I'm </span>
+          <span className="text-flame">Ryan Morales</span>
         </h1>
-        <p className="text-gray-400 text-lg mb-8 max-w-lg mx-auto">
-          I'm a full-stack developer who loves crafting, clean web applications.
-        </p>
-        <div className="flex justify-center space-x-4">
-          <a href="#projects" className="bg-blue-500 text-white py-3 px-6 rounded font-med transition relative overflow-hidden hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(59, 130, 246, 0.4)">
-            View Projects
-          </a>
-          <a href="#contact" className="border border-blue-500/50 text-blue-500 py-3 px-6 rounded font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(59, 130, 246, 0.2) hover:bg-blue-500/10">
-            Contact Me
-          </a>
-        </div>
+        <h2 className="font-michroma text-3xl">
+          <span className="text-bluemunsell">
+            I am {getArticle(words[currentWordIndex])}{" "}
+          </span>
+          <span className="text-flame">{currentText}</span>
+        </h2>
+      </div>
+
+      {/* Headshot section */}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/4 h-1/2 flex items-end justify-center">
+        {/* Electric blue half oval background */}
+        <div
+          className="absolute bottom-0 w-[140%] h-[80%] rounded-t-full"
+          style={{
+            backgroundColor: "#6efafb",
+            transform: "scaleY(1)", // Makes it a half oval
+          }}
+        ></div>
+
+        {/* Flame colored rectangle frame */}
+        <div
+          className="absolute bottom-0 w-4/5 h-4/5 z-10"
+          style={{ backgroundColor: "#d75412" }}
+        ></div>
+
+        {/* Headshot image */}
+        <img
+          src="/ryan-nobg.png"
+          alt="Ryan Morales"
+          className="absolute bottom-0 w-4/5 h-full object-cover object-top z-20"
+        />
       </div>
     </section>
-  )
-}
+  );
+};

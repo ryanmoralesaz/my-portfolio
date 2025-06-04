@@ -10,6 +10,10 @@
   --rosepink: 255 87 187;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 html,
 body {
   margin: 0;
@@ -80,12 +84,19 @@ body {
 @layer components {
   .nav-link {
     color: rgb(var(--flame));
-    transition: color 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, transform 0.15s ease-in-out;
     padding-right: 1em;
     margin-right: 1em;
     border-right: 1px solid rgb(var(--flame) / 0.8);
+    font-size: 1.125rem;
+    font-weight: 500;
   }
   .nav-link:hover {
     color: rgb(var(--bluemunsell));
+    border-right: 1px solid rgb(var(--bluemunsell) / 0.8);
+    transform: scale(1.05);
+  }
+  .nav-link:last-child {
+    border-right: none;
   }
 }
