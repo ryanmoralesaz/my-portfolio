@@ -23,7 +23,7 @@ export const Home = () => {
 
   const [scrollY, setScrollY] = useState(0);
 
-  const getArticle = (word) => {
+  const getArticle = word => {
     const vowels = ["a", "e", "i", "o", "u"];
     return vowels.includes(word[0].toLowerCase()) ? "an" : "a";
   };
@@ -54,7 +54,7 @@ export const Home = () => {
             setCurrentText(currentText.substring(0, currentText.length - 1));
           } else {
             setIsDeleting(false);
-            setCurrentWordIndex((prev) => (prev + 1) % words.length);
+            setCurrentWordIndex(prev => (prev + 1) % words.length);
           }
         }
       },
@@ -66,8 +66,7 @@ export const Home = () => {
   return (
     <section
       id="home"
-      className="relative w-full h-[420px] flex items-start justify-center overflow-hidden"
-    >
+      className="relative w-full h-[420px] flex items-start justify-center overflow-hidden">
       {/* Moving background image */}
       <div
         className="absolute inset-0"
@@ -77,8 +76,7 @@ export const Home = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           transform: `translateY(${scrollY * 0.3}px)`,
-        }}
-      ></div>
+        }}></div>
       {/* Electric blue filter overlay */}
       <div
         className="absolute inset-0"
@@ -86,16 +84,14 @@ export const Home = () => {
           backgroundColor: "#6efafb",
           mixBlendMode: "multiply",
           opacity: 0.7,
-        }}
-      ></div>
+        }}></div>
 
       {/* White overlay for upper third */}
       <div
         className="absolute top-0 left-0 right-0 h-1/2"
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.8)",
-        }}
-      ></div>
+        }}></div>
 
       {/* Text content */}
       <div className="relative z-10 text-center pt-16 mt-5">
@@ -115,24 +111,22 @@ export const Home = () => {
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/4 h-1/2 flex items-end justify-center">
         {/* Electric blue half oval background */}
         <div
-          className="absolute bottom-0 w-[140%] h-[80%] rounded-t-full"
+          className="absolute bottom-0 w-[140%] h-[80%] rounded-t-full animate-fadeIn"
           style={{
             backgroundColor: "#6efafb",
             transform: "scaleY(1)", // Makes it a half oval
-          }}
-        ></div>
+          }}></div>
 
         {/* Flame colored rectangle frame */}
         <div
-          className="absolute bottom-0 w-4/5 h-4/5 z-10"
-          style={{ backgroundColor: "#d75412" }}
-        ></div>
+          className="absolute bottom-0 w-4/5 h-6/10 z-10 animate-fadeIn"
+          style={{ backgroundColor: "#d75412" }}></div>
 
         {/* Headshot image */}
         <img
           src="/ryan-nobg.png"
           alt="Ryan Morales"
-          className="absolute bottom-0 w-4/5 h-full object-cover object-top z-20"
+          className="absolute bottom-0 w-4/5 h-full object-cover object-top z-20 animate-fadeIn"
         />
       </div>
     </section>
