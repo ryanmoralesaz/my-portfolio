@@ -34,22 +34,15 @@ function App() {
               <p key={index}>{para}</p>
             ))}
           </LeftTextSection>
-          <ImageCarousel
-            images={imageGalleries[0]} />
-          <RightTextSection title={textSections.whoAmI.title}>
+          <ImageCarousel images={imageGalleries[0]} />
+          <RightTextSection title={textSections.myClassroom.title}>
             {textSections.whoAmI.content.map((para, index) => (
               <p key={index}>{para}</p>
             ))}
           </RightTextSection>
 
-          <ImageCarousel
-            images={[
-              "/juliacameron.jpg",
-              "/ryan-nobg.png",
-              "/juliacameron.jpg",
-            ]}></ImageCarousel>
-
-          <LeftTextSection title={textSections.whoAmI.title}>
+          <ImageCarousel images={imageGalleries[1]} />
+          <LeftTextSection title={textSections.teachingPhilosophy.title}>
             {textSections.whoAmI.content.map((para, index) => (
               <p key={index}>{para}</p>
             ))}

@@ -24,12 +24,67 @@ export const textSections = {
 
 export const imageGalleries = [
   [
-    "/me-photos/at-the-beach.png",
-    "/me-photos/me_as_krillin.jpg",
-    "/me-photos/me_at_wrestling.jpg",
-    "/me-photos/me_and_dad.jpg",
-    "/me-photos/me_niece-and-nephew.jpg",
-    "/me-photos/me_with_students.jpg",
-    "/me-photos/me-with-family.jpg",
+    {
+      src: "/me-photos/at-the-beach.png",
+      description: "I love the beach!",
+      orientation: "portrait",
+    },
+    {
+      src: "/me-photos/me_as_krillin.jpg",
+      description: "Cosplaying as Krillin",
+      orientation: "portrait",
+    },
+    {
+      src: "/me-photos/me_at_wrestling.jpg",
+      description: "Cheering on my favorite wrestlers",
+      orientation: "portrait",
+    },
+    {
+      src: "/me-photos/me_and_dad.jpg",
+      description: "Me and dad",
+      orientation: "portrait",
+    },
+    {
+      src: "/me-photos/me_niece-and-nephew.jpg",
+      description: "With my niece and nephew",
+      orientation: "portrait",
+    },
+    {
+      src: "/me-photos/me_with_students.jpg",
+      description: "Celebrating graduation with students",
+      orientation: "landscape",
+    },
+    {
+      src: "/me-photos/me-with-family.jpg",
+      description: "Holidays with Family",
+      orientation: "portrait",
+    },
+  ],
+  [
+    {
+      src: "/classroom-photos/students-learning2.png",
+      description: "lorem",
+      orientation: "landscape",
+    },
+    {
+      src: "/classroom-photos/my-students.jpg",
+      description: "lorem",
+      orientation: "landscape",
+    },
+    {
+      src: "/classroom-photos/student-celebration.jpg",
+      description: "lorem",
+      orientation: "landscape",
+    },
+    {
+      src: "/classroom-photos/students-learning.jpg",
+      description: "lorem",
+      orientation: "landscape",
+    },
+    {
+      src: "/classroom-photos/students-teaching-each-other.jpg",
+      description: "lorem",
+      orientation: "portrait",
+    },
   ],
 ];
