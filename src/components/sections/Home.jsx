@@ -109,15 +109,17 @@ export const Home = () => {
 
       {/* Headshot section */}
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/4 h-1/2 flex items-end justify-center">
-        {/* Electric blue half oval background */}
+        {/* Gradient half oval background (shrunk by 10%) */}
         <div
-          className="absolute bottom-0 w-[140%] h-[80%] rounded-t-full animate-fadeIn"
+          className="absolute bottom-0 z-0 rounded-t-full animate-fadeIn"
           style={{
-            backgroundColor: "#6efafb",
-            transform: "scaleY(1)", // Makes it a half oval
+            width: "126%", // 140% × 0.9 ≈ 126%
+            height: "72%", //  80% × 0.9 = 72%
+            background: "linear-gradient(to right, #0091ad, #6efafb)",
+            transform: "translateY(0)", // still a half‐oval shape via rounded‐t-full
           }}></div>
 
-        {/* Flame colored rectangle frame */}
+        {/* Flame‐colored rectangle frame */}
         <div
           className="absolute bottom-0 w-4/5 h-6/10 z-10 animate-fadeIn"
           style={{ backgroundColor: "#d75412" }}></div>
@@ -129,6 +131,8 @@ export const Home = () => {
           className="absolute bottom-0 w-4/5 h-full object-cover object-top z-20 animate-fadeIn"
         />
       </div>
+      {/* attribution section */}
+      <div className="absolute bottom-0 right-0">CC0 Julia Cameron</div>
     </section>
   );
 };

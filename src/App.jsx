@@ -1,93 +1,53 @@
+// src/App.jsx
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import MainPage from "./pages/MainPage"; //Home
-import PortfolioPage from "./pages/PortfolioPage"; //Home
-import ClassroomTechPage from "./pages/ClassroomTechPage"; //Home
-import "./App.css";
-import "./index.css";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import MainPage from "./pages/MainPage";
+import PortfolioPage from "./pages/PortfolioPage";
+import ClassroomTechPage from "./pages/ClassroomTechPage";
 
-import { LoadingScreen } from "./components/LoadingScreen";
-import { Navbar } from "./components/Navbar";
-import { MobileMenu } from "./components/MobileMenu";
-import { Home } from "./components/sections/Home";
-import { LeftTextSection } from "./components/sections/LeftTextSection";
-import { RightTextSection } from "./components/sections/RightTextSection";
-import { ImageCarousel } from "./components/sections/ImageCarousel";
-import { Footer } from "./components/Footer";
-// If About/Projects are commented out, keep their imports commented or delete them
-// import { About } from "./components/sections/About";
-// import { Projects } from "./components/sections/Projects";
+// Wrapper component to track navigation state
+function AppContent() {
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
+  const location = useLocation();
 
-import { textSections, imageGalleries } from "./data/content.jsx";
-
-function App() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // Scroll to top after loading screen completes
-  const handleLoadingComplete = () => {
-    setIsLoaded(true);
-    // Small delay so that the opacity transition starts smoothly
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "instant" });
-    }, 100);
-  };
-
-  // Also scroll to top on mount (for page refreshes)
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    // Check if this is a page refresh
+    const navEntries = performance.getEntriesByType("navigation");
+    const isPageRefresh = navEntries.length > 0 && navEntries[0].type === "reload";
+    setIsRefresh(isPageRefresh);
   }, []);
 
+  // Reset refresh state on route changes
+  useEffect(() => {
+    if (hasLoadedOnce) {
+      setIsRefresh(false);
+    }
+  }, [location, hasLoadedOnce]);
+
   return (
-    <>
-      {!isLoaded && <LoadingScreen onComplete={() => setIsLoaded(true)} />}
-      <div
-        className={`min-h-screen transition-opacity duration-700 ${
-          isLoaded ? "opacity-100" : "opacity-0"
-        } bg-[rgba(var(--vanilla)/1)] text-gray-800`}
-      >
-        <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-        <div className="max-w-[1200px] mx-auto">
-          <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-          <Home />
-
-          <LeftTextSection title={textSections.whoAmI.title}>
-            {textSections.whoAmI.content.map((para, index) => (
-              <p key={index}>{para}</p>
-            ))}
-          </LeftTextSection>
-
-          <ImageCarousel images={imageGalleries[0]} />
-
-          <RightTextSection title={textSections.myClassroom.title}>
-            {textSections.whoAmI.content.map((para, index) => (
-              <p key={index}>{para}</p>
-            ))}
-          </RightTextSection>
-
-          <ImageCarousel images={imageGalleries[1]} />
-
-          <LeftTextSection title={textSections.teachingPhilosophy.title}>
-            {textSections.whoAmI.content.map((para, index) => (
-              <p key={index}>{para}</p>
-            ))}
-          </LeftTextSection>
-
-          <ImageCarousel
-            images={[
-              "/juliacameron.jpg",
-              "/ryan-nobg.png",
-              "/juliacameron.jpg",
-            ]}
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <MainPage
+            hasLoadedOnce={hasLoadedOnce}
+            setHasLoadedOnce={setHasLoadedOnce}
+            isRefresh={isRefresh}
           />
-
-          {/* <About /> */}
-          {/* <Projects /> */}
-        </div>
-        <Footer />
-      </div>
-    </>
+        }
+      />
+      <Route path="/portfolio" element={<PortfolioPage />} />
+      <Route path="/classroom" element={<ClassroomTechPage />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+}

@@ -119,7 +119,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
             setIsPausedByClick(true); // PAUSE as soon as user clicks
           }}
           disabled={isTransitioning}
-          className={`absolute left-10 z-30 p-3 rounded-full bg-[#6efafb] hover:bg-[#5de9ea] shadow-lg transition-all duration-200 ${
+          className={`absolute left-10 z-30 p-3 rounded-full bg-[rgb(var(--vanilla)/1))] hover:bg-[#5de9ea] shadow-lg transition-all duration-200 ${
             isTransitioning ? "opacity-50 cursor-not-allowed" : ""
           } ${
             hasBeenVisible
@@ -128,7 +128,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
           }`}
           style={{ transitionDelay: "600ms" }}
         >
-          <span className="text-white text-xl font-bold">‹</span>
+          <span className="text-flame text-xl font-bold">‹</span>
         </button>
 
         {/* ── THE THREE IMAGES (offset -1, 0, +1) ── */}
@@ -192,7 +192,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
             setIsPausedByClick(true); // PAUSE as soon as user clicks
           }}
           disabled={isTransitioning}
-          className={`absolute right-10 z-30 p-3 rounded-full bg-[#6efafb] hover:bg-[#5de9ea] shadow-lg transition-all duration-200 ${
+          className={`absolute right-10 z-30 p-3 rounded-full bg-[rgb(var(--vanilla)/1))] hover:bg-[#5de9ea] shadow-lg transition-all duration-200 ${
             isTransitioning ? "opacity-50 cursor-not-allowed" : ""
           } ${
             hasBeenVisible
@@ -201,7 +201,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
           }`}
           style={{ transitionDelay: "600ms" }}
         >
-          <span className="text-white text-xl font-bold">›</span>
+          <span className="text-flame text-xl font-bold">›</span>
         </button>
 
         {/* ── DOTS ── */}
