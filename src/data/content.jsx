@@ -2,8 +2,8 @@ export const textSections = {
   whoAmI: {
     title: "Who Am I?",
     content: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "I am an Arizona native since 1987. I have watched the city of Phoenix go from sprawling cotton and watermelon fields to a giant metropolis of 8 million people 🏙. I attended Arizona State University where I attained a Major in Business Marketing and Minors in Spanish and International Business 💼. I taught CTE Business, Marketing, Math and Spanish classes over the last 15 years, in addition to serving as a STEM Integration Specialist. After Undergrad, I earned an online technical degree in Full-Stack Javascript Web applications in addition to several certifications in Web Design and Software Development. Currently, I teach Computer Programming and Web Development 💻 at West-MEC Central in Glendale, Arizona. I have started and stopped my Masters program at NAU three different times over the last 10 years, but I am fully committed to finishing this December 🎄📜!",
+      "A few interesting facts about me are that I have a black belt in martial arts, I enjoy playing guitar 🎸 and reading science fiction novels 🧪📚, and my favorite outdoor activity is bicycling 🚲.",
     ],
   },
   myClassroom: {
@@ -90,5 +90,5 @@ export const imageGalleries = [
       description: "A student engaging in student centered learning",
       orientation: "landscape",
     },
-  ],
+  ], []
 ];
