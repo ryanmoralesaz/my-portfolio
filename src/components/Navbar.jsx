@@ -9,11 +9,10 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
       <div className="max-w-[1200px] mx-auto px-4">
         <div className="flex justify-center items-center h-16 relative">
           <div
-            className={`absolute left-0 w-7 h-5 relative cursor-pointer z-40 md:hidden ${
+            className={`left-0 w-7 h-5 relative cursor-pointer z-40 md:hidden ${
               menuOpen ? "opacity-0" : "opacity-100"
             }`}
-            onClick={() => setMenuOpen((prev) => !prev)}
-          >
+            onClick={() => setMenuOpen(prev => !prev)}>
             &#9776;
           </div>
           <div className="hidden md:flex items-center space-x-8">

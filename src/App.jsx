@@ -15,12 +15,12 @@ import { Projects } from "./components/sections/Projects";
 import { textSections, imageGalleries } from "./data/content.js";
 
 function App() {
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
-      {/* {!isLoaded && <LoadingScreen onComplete={() => setIsLoaded(true)} />} */}
+      {!isLoaded && <LoadingScreen onComplete={() => setIsLoaded(true)} />}
       <div
         className={`min-h-screen transition-opacity duration-700 ${
           isLoaded ? "opacity-100" : "opacity-0"
