@@ -37,7 +37,7 @@ export const imageGalleries = [
     {
       src: "/me-photos/me_at_wrestling.jpg",
       description: "Cheering on my favorite wrestlers",
-      orientation: "portrait",
+      orientation: "landscape",
     },
     {
       src: "/me-photos/me_and_dad.jpg",
@@ -57,34 +57,38 @@ export const imageGalleries = [
     {
       src: "/me-photos/me-with-family.jpg",
       description: "Holidays with Family",
-      orientation: "portrait",
+      orientation: "landscape",
     },
   ],
   [
     {
       src: "/classroom-photos/students-learning2.png",
-      description: "lorem",
+      description: (
+        <>
+          My students building web pages <br /> &copy; West-MEC
+        </>
+      ),
       orientation: "landscape",
     },
     {
       src: "/classroom-photos/my-students.jpg",
-      description: "lorem",
+      description: "Students dressed up for practice interviews",
       orientation: "landscape",
     },
     {
       src: "/classroom-photos/student-celebration.jpg",
-      description: "lorem",
+      description: "Celebrating student achievement with awards",
       orientation: "landscape",
     },
     {
       src: "/classroom-photos/students-learning.jpg",
-      description: "lorem",
+      description: "Students practicing their technology skills",
       orientation: "landscape",
     },
     {
       src: "/classroom-photos/students-teaching-each-other.jpg",
-      description: "lorem",
-      orientation: "portrait",
+      description: "A student engaging in student centered learning",
+      orientation: "landscape",
     },
   ],
 ];

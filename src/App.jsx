@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import MainPage from "./pages/MainPage"; //Home
+import PortfolioPage from "./pages/PortfolioPage"; //Home
+import ClassroomTechPage from "./pages/ClassroomTechPage"; //Home
 import "./App.css";
 import "./index.css";
 
@@ -14,7 +18,7 @@ import { Footer } from "./components/Footer";
 // import { About } from "./components/sections/About";
 // import { Projects } from "./components/sections/Projects";
 
-import { textSections, imageGalleries } from "./data/content";
+import { textSections, imageGalleries } from "./data/content.jsx";
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
