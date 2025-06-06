@@ -69,23 +69,6 @@ nav {
   z-index: 9999 !important;
 }
 
-/* Level 3: Carousel Center Images */
-.orbit-center {
-  z-index: 3;
-}
-
-/* Level 2: Carousel Side Images */
-.orbit-left,
-.orbit-right {
-  z-index: 2;
-}
-
-/* Level 1: Page Sections (Lowest) */
-section {
-  position: relative;
-  z-index: 1;
-}
-
 /* Remove the isolation that was causing problems */
 section {
   isolation: auto !important;
@@ -195,27 +178,28 @@ nav > div {
   /* ----------------
      CAROUSEL ORBIT ANIMATIONS
      ---------------- */
+  /*
   .orbit-left {
-    transform: translateX(-150%) rotateY(30deg) scale(0.75);
-    opacity: 0.5;
+    transform: translateX(-120%) rotateY(25deg) scale(0.7);
+    opacity: 0.6;
     z-index: 2;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .orbit-center {
     transform: translateX(0%) rotateY(0deg) scale(1);
     opacity: 1;
     z-index: 3;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .orbit-right {
-    transform: translateX(150%) rotateY(-30deg) scale(0.75);
-    opacity: 0.5;
+    transform: translateX(120%) rotateY(-25deg) scale(0.7);
+    opacity: 0.6;
     z-index: 2;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
-
+*/
   /* ----------------
      CUSTOM FONT FAMILIES
      ---------------- */
