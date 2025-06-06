@@ -99,8 +99,8 @@ export const Hero = () => {
       className="relative w-full h-[420px] flex items-start justify-center overflow-hidden bg-vanilla">
 
       {/* All visual elements wrapped in a single container that fades in together */}
-      <div className={`absolute inset-0 transition-opacity duration-500 ${
-        imagesLoaded ? "opacity-100" : "opacity-0"
+      <div className={`absolute inset-0 transition-all duration-1000 ease-out ${
+        imagesLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105"
       }`}>
         {/* Moving background image */}
         <div
@@ -147,8 +147,8 @@ export const Hero = () => {
       </div>
 
       {/* Headshot section - Also fades in with images */}
-      <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/4 h-1/2 flex items-end justify-center transition-opacity duration-500 ${
-        imagesLoaded ? "opacity-100" : "opacity-0"
+      <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/4 h-1/2 flex items-end justify-center transition-all duration-1000 ease-out delay-300 ${
+        imagesLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       }`}>
         {/* Gradient half oval background (shrunk by 10%) */}
         <div
@@ -174,7 +174,7 @@ export const Hero = () => {
       </div>
 
       {/* Attribution - fades in with images */}
-      <div className={`absolute bottom-0 right-0 text-xs text-black/50 p-2 transition-opacity duration-500 ${
+      <div className={`absolute bottom-0 right-0 text-xs text-black/50 p-2 transition-all duration-1000 ease-out delay-500 ${
         imagesLoaded ? "opacity-100" : "opacity-0"
       }`}>
         CC0 Julia Cameron
