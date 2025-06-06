@@ -1,6 +1,12 @@
 // src/App.jsx
 import React, { useState, useEffect } from "react";
-import { HashRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import ClassroomTechPage from "./pages/ClassroomTechPage";
@@ -14,7 +20,8 @@ function AppContent() {
   useEffect(() => {
     // Check if this is a page refresh
     const navEntries = performance.getEntriesByType("navigation");
-    const isPageRefresh = navEntries.length > 0 && navEntries[0].type === "reload";
+    const isPageRefresh =
+      navEntries.length > 0 && navEntries[0].type === "reload";
     setIsRefresh(isPageRefresh);
   }, []);
 
@@ -46,8 +53,8 @@ function AppContent() {
 
 export default function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <AppContent />
-    </HashRouter>
+    </BrowserRouter>
   );
 }
