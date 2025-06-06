@@ -20,3 +20,4 @@ jobs:
           external_repository: ryanmoralesaz/ryanmoralesaz.github.io
           publish_dir: ./dist
           publish_branch: main
+          cname: ryanmorales.info
