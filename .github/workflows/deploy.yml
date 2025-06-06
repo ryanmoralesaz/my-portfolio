@@ -1,7 +1,8 @@
+# .github/workflows/deploy.yml
 name: Deploy to GitHub Pages
 on:
   push:
-    branches: [ teacher ]
+    branches: [ production ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
