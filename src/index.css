@@ -56,6 +56,12 @@ body {
     perspective: 1000px;
   }
   /*fonts*/
+  .font-mono {
+    font-family: "JetBrains Mono", monospace;
+  }
+  .font-space {
+    font-family: "Space Grotesk", sans-serif;
+  }
   .font-bebas {
     font-family: "Bebas Neue", sans-serif;
   }

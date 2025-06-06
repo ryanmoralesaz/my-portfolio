@@ -11,7 +11,7 @@ import { RightTextSection } from "../components/sections/RightTextSection";
 import { ImageCarousel } from "../components/sections/ImageCarousel";
 import { Footer } from "../components/Footer";
 
-import { textSections, imageGalleries } from "../data/content";
+import { mainContent, imageGalleries } from "../data/mainContent";
 
 export default function MainPage({
   hasLoadedOnce,
@@ -72,55 +72,51 @@ export default function MainPage({
         <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
         {/* ---- HERO SECTION (Home) ---- */}
-        <section id="home">
+        <section>
           <Home />
         </section>
 
         {/* ---- About Me ("Who Am I?") ---- */}
-        <section id="whoami">
-          <LeftTextSection title={textSections.whoAmI.title}>
-            {textSections.whoAmI.content.map((para, idx) => (
+        <section>
+          <LeftTextSection title={mainContent.whoAmI.title}>
+            {mainContent.whoAmI.content.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
           </LeftTextSection>
         </section>
 
-        {/* ---- First Carousel ---- */}
-        <section id="carousel1">
-          <ImageCarousel images={imageGalleries[0]} />
+        {/* ---- about me carousel ---- */}
+        <section>
+          <ImageCarousel images={mainContent.aboutMeCarousel} />
         </section>
 
         {/* ---- My Classroom section ---- */}
-        <section id="myclassroom">
-          <RightTextSection title={textSections.myClassroom.title}>
-            {textSections.myClassroom.content.map((para, idx) => (
+        <section>
+          <RightTextSection title={mainContent.myClassroom.title}>
+            {mainContent.myClassroom.content.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
           </RightTextSection>
         </section>
 
-        {/* ---- Second Carousel ---- */}
-        <section id="carousel2">
+        {/* ---- my classroom carousel ---- */}
+        <section>
           <ImageCarousel images={imageGalleries[1]} />
         </section>
 
         {/* ---- Teaching Philosophy ---- */}
-        <section id="teachingphilosophy">
-          <LeftTextSection title={textSections.teachingPhilosophy.title}>
-            {textSections.teachingPhilosophy.content.map((para, idx) => (
+        <section>
+          <LeftTextSection title={mainContent.teachingPhilosophy.title}>
+            {mainContent.teachingPhilosophy.content.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
           </LeftTextSection>
         </section>
 
         {/* ---- Third Carousel ---- */}
-        <section id="carousel3">
+        <section>
           <ImageCarousel
-            images={[
-              "/computer-keyboard.jpg",
-              "/computer-keyboard.jpg",
-              "/computer-keyboard.jpg",
-            ]}
+            images={mainContent.aboutMeCarousel}
           />
         </section>
 

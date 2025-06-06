@@ -1,4 +1,4 @@
-export const textSections = {
+export const mainContent = {
   whoAmI: {
     title: "Who Am I?",
     content: [
@@ -20,6 +20,43 @@ export const textSections = {
       "Et molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi.",
     ],
   },
+  aboutMeCarousel: [
+    {
+      src: "/me-photos/at-the-beach.png",
+      description: "I love the beach!",
+      orientation: "portrait",
+    },
+    {
+      src: "/me-photos/me_as_krillin.jpg",
+      description: "Cosplaying as Krillin",
+      orientation: "portrait",
+    },
+    {
+      src: "/me-photos/me_at_wrestling.jpg",
+      description: "Cheering on my favorite wrestlers",
+      orientation: "landscape",
+    },
+    {
+      src: "/me-photos/me_and_dad.jpg",
+      description: "Me and dad",
+      orientation: "portrait",
+    },
+    {
+      src: "/me-photos/me_niece-and-nephew.jpg",
+      description: "With my niece and nephew",
+      orientation: "portrait",
+    },
+    {
+      src: "/me-photos/me_with_students.jpg",
+      description: "Celebrating graduation with students",
+      orientation: "landscape",
+    },
+    {
+      src: "/me-photos/me-with-family.jpg",
+      description: "Holidays with Family",
+      orientation: "landscape",
+    },
+  ],
 };
 
 export const imageGalleries = [
@@ -90,5 +127,6 @@ export const imageGalleries = [
       description: "A student engaging in student centered learning",
       orientation: "landscape",
     },
-  ], []
+  ],
+  [],
 ];
