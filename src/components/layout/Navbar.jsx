@@ -56,35 +56,46 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
   const handleHomeSectionClick = (e, sectionId) => {
     e.preventDefault();
     if (isHomeRoute) {
-      // We're already on home, just scroll to section
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+      // We're already on home, add the fade effect like other pages
+      const container = document.querySelector(".fade-transition"); // Target the main container
+      if (container) {
+        container.style.opacity = "0.3"; // Fade out
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+          container.style.opacity = "1"; // Fade back in
+        }, 400);
+      } else {
+        // Fallback if container not found
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
       }
     } else {
       // Navigate to home with hash
       navigate(`/#${sectionId}`, { replace: false });
     }
   };
-
   return (
     <nav className="fixed top-0 w-full z-40 bg-[rgba(var(--vanilla)/1)] backdrop-blur-lg border-b border-white/10 shadow-lg">
       <div className="max-w-[1200px] mx-auto px-4">
         <div className="flex justify-between items-center h-16 relative">
           <a href="/" onClick={handleHomeClick} className={`nav-link`}>
-            <div className="text-2xl font-michroma text-flame pl-20">
+            <div className="text-2xl font-michroma text-flame md:pl-20 pl-4">
               RyanMorales.info
             </div>
           </a>
-          {/* Hamburger icon for mobile */}
+          {/* Hamburger icon for mobile - MOVED TO RIGHT */}
           <div
-            className={`md:hidden absolute left-0 w-7 h-5 flex items-center justify-center cursor-pointer z-50 ${
+            className={`md:hidden absolute right-4 w-7 h-5 flex items-center justify-center cursor-pointer z-50 text-flame text-xl font-bold ${
               menuOpen ? "opacity-0" : "opacity-100"
             }`}
             onClick={() => setMenuOpen(prev => !prev)}>
             &#9776;
           </div>
-
           {/* Desktop menu */}
           <ul className="hidden md:flex items-center space-x-6">
             {/* ─── HOME DROPDOWN ─── */}
@@ -101,7 +112,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
                 <li className="border-b last:border-none">
                   <a
                     href="/#whoami"
-                    onClick={(e) => handleHomeSectionClick(e, "whoami")}
+                    onClick={e => handleHomeSectionClick(e, "whoami")}
                     className="block px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue">
                     About Me
                   </a>
@@ -109,7 +120,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
                 <li className="border-b last:border-none">
                   <a
                     href="/#myclassroom"
-                    onClick={(e) => handleHomeSectionClick(e, "myclassroom")}
+                    onClick={e => handleHomeSectionClick(e, "myclassroom")}
                     className="block px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue">
                     My Classroom
                   </a>
@@ -117,7 +128,9 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
                 <li>
                   <a
                     href="/#teachingphilosophy"
-                    onClick={(e) => handleHomeSectionClick(e, "teachingphilosophy")}
+                    onClick={e =>
+                      handleHomeSectionClick(e, "teachingphilosophy")
+                    }
                     className="block px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue">
                     Teaching Philosophy
                   </a>

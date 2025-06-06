@@ -1,14 +1,13 @@
 // src/pages/ClassroomTechPage.jsx
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Navbar } from "../components/Navbar";
-import { MobileMenu } from "../components/MobileMenu";
-import { ParallaxHero } from "../components/ParallaxHero";
-import { LeftTextSection } from "../components/sections/LeftTextSection";
-import { RightTextSection } from "../components/sections/RightTextSection";
-import { ImageCarousel } from "../components/sections/ImageCarousel";
+import { Navbar } from "../components/layout/Navbar";
+import { MobileMenu } from "../components/layout/MobileMenu";
+import { ParallaxHero } from "../components/features/ParallaxHero";
+import { TextSection } from "../components/ui/TextSection"; // Use new TextSection
+import { ImageCarousel } from "../components/ui/ImageCarousel";
 import { IframeSection } from "../components/sections/IFrameSection";
-import { Footer } from "../components/Footer";
+import { Footer } from "../components/layout/Footer";
 import { classroomTechContent } from "../data/classroomTechContent";
 
 export default function ClassroomTechPage() {
@@ -21,7 +20,6 @@ export default function ClassroomTechPage() {
       const id = location.hash.replace("#", "");
       const container = containerRef.current;
       if (!container) return;
-
       container.style.opacity = "0.3";
       setTimeout(() => {
         const elem = document.getElementById(id);
@@ -60,30 +58,24 @@ export default function ClassroomTechPage() {
         </section>
 
         <section id="digital-citizenship">
-          <RightTextSection title="Digital Citizenship">
+          <TextSection title="Digital Citizenship" position="right">
             <p>{classroomTechContent.digitalCitationText}</p>
-          </RightTextSection>
-          <ImageCarousel
-            images={classroomTechContent.digitalCitationCarousel}
-          />
+          </TextSection>
+          <ImageCarousel images={classroomTechContent.digitalCitationCarousel} />
         </section>
 
         <section id="student-tech-engagement">
-          <LeftTextSection title="Student Technology Engagement">
+          <TextSection title="Student Technology Engagement" position="left">
             <p>{classroomTechContent.studentEngagementText}</p>
-          </LeftTextSection>
-          <ImageCarousel
-            images={classroomTechContent.studentEngagementCarousel}
-          />
+          </TextSection>
+          <ImageCarousel images={classroomTechContent.studentEngagementCarousel} />
         </section>
 
         <section id="culturally-relevant-learning">
-          <RightTextSection title="Culturally Relevant Learning Strategies">
+          <TextSection title="Culturally Relevant Learning Strategies" position="right">
             <p>{classroomTechContent.culturallyRelevantText}</p>
-          </RightTextSection>
-          <ImageCarousel
-            images={classroomTechContent.culturallyRelevantCarousel}
-          />
+          </TextSection>
+          <ImageCarousel images={classroomTechContent.culturallyRelevantCarousel} />
         </section>
 
         <Footer />

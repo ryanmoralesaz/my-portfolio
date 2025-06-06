@@ -1,6 +1,7 @@
+// sections/Hero.jsx
 import { useMemo, useState, useEffect } from "react";
 
-export const Home = () => {
+export const Hero = () => {
   const words = useMemo(
     () => [
       "Educator",
@@ -94,12 +95,12 @@ export const Home = () => {
         }}></div>
 
       {/* Text content */}
-      <div className="relative z-10 text-center pt-16 mt-5">
-        <h1 className="font-michroma text-5xl mb-2">
+      <div className="relative z-10 text-center pt-16 mt-5 px-4">
+        <h1 className="font-michroma text-2xl sm:text-3xl lg:text-5xl mb-2 leading-tight">
           <span className="text-bluemunsell">Hello, I'm </span>
           <span className="text-flame">Ryan Morales</span>
         </h1>
-        <h2 className="font-michroma text-3xl">
+        <h2 className="font-michroma text-lg sm:text-xl lg:text-3xl leading-tight">
           <span className="text-bluemunsell">
             I am {getArticle(words[currentWordIndex])}{" "}
           </span>
@@ -107,22 +108,24 @@ export const Home = () => {
         </h2>
       </div>
 
-      {/* Headshot section */}
+      {/* Headshot section - HIDE BLUE ORB ON MOBILE */}
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/4 h-1/2 flex items-end justify-center">
-        {/* Gradient half oval background (shrunk by 10%) */}
+        {/* Gradient half oval background - HIDDEN ON MOBILE */}
         <div
-          className="absolute bottom-0 z-0 rounded-t-full animate-fadeIn"
+          className="absolute bottom-0 z-0 rounded-t-full animate-fadeIn hidden sm:block"
           style={{
-            width: "126%", // 140% × 0.9 ≈ 126%
-            height: "72%", //  80% × 0.9 = 72%
+            width: "126%",
+            height: "72%",
             background: "linear-gradient(to right, #0091ad, #6efafb)",
-            transform: "translateY(0)", // still a half‐oval shape via rounded‐t-full
-          }}></div>
+            transform: "translateY(0)",
+          }}
+        />
 
         {/* Flame‐colored rectangle frame */}
         <div
           className="absolute bottom-0 w-4/5 h-6/10 z-10 animate-fadeIn"
-          style={{ backgroundColor: "#d75412" }}></div>
+          style={{ backgroundColor: "#d75412" }}
+        />
 
         {/* Headshot image */}
         <img

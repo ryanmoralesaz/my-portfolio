@@ -1,13 +1,12 @@
 // src/pages/PortfolioPage.jsx
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Navbar } from "../components/Navbar";
-import { MobileMenu } from "../components/MobileMenu";
-import { ParallaxHero } from "../components/ParallaxHero";
-import { LeftTextSection } from "../components/sections/LeftTextSection";
-import { RightTextSection } from "../components/sections/RightTextSection";
-import { ImageCarousel } from "../components/sections/ImageCarousel";
-import { Footer } from "../components/Footer";
+import { Navbar } from "../components/layout/Navbar";
+import { MobileMenu } from "../components/layout/MobileMenu";
+import { ParallaxHero } from "../components/features/ParallaxHero";
+import { TextSection } from "../components/ui/TextSection"; // Using new consolidated component
+import { ImageCarousel } from "../components/ui/ImageCarousel";
+import { Footer } from "../components/layout/Footer";
 import { portfolioContent } from "../data/portfolioContent";
 
 export default function PortfolioPage() {
@@ -20,7 +19,6 @@ export default function PortfolioPage() {
       const id = location.hash.replace("#", "");
       const container = containerRef.current;
       if (!container) return;
-
       container.style.opacity = "0.3";
       setTimeout(() => {
         const elem = document.getElementById(id);
@@ -50,26 +48,26 @@ export default function PortfolioPage() {
         />
 
         <section id="portfolio">
-          <LeftTextSection title="Portfolio">
+          <TextSection title="Portfolio" position="left">
             {portfolioContent.portfolioText.map((para, index) => (
               <p key={index} className="mb-4">
                 {para}
               </p>
             ))}
-          </LeftTextSection>
+          </TextSection>
         </section>
 
         <section id="community-engagement">
-          <RightTextSection title="Community Engagement Strategies">
+          <TextSection title="Community Engagement Strategies" position="right">
             <p>{portfolioContent.communityText}</p>
-          </RightTextSection>
+          </TextSection>
           <ImageCarousel images={portfolioContent.communityCarousel} />
         </section>
 
         <section id="lesson-plans">
-          <LeftTextSection title="My Lesson Plans">
+          <TextSection title="My Lesson Plans" position="left">
             <p>{portfolioContent.lessonPlansText}</p>
-          </LeftTextSection>
+          </TextSection>
         </section>
 
         <Footer />

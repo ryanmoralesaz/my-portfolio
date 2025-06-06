@@ -1,58 +1,91 @@
-// src/components/sections/ImageCarousel.jsx
+// src/components/ui/ImageCarousel.jsx
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 
 export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // NEW: track if user has paused by clicking an arrow
   const [isPausedByClick, setIsPausedByClick] = useState(false);
-
-  // Keep the old “pause on hover center image”
   const [isHovered, setIsHovered] = useState(false);
 
-  // IntersectionObserver: ref, isVisible, hasBeenVisible
+  // Swipe functionality state
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  // Animation state for smoother transitions
+  const [animationPhase, setAnimationPhase] = useState('stable'); // 'stable', 'fadeOut', 'fadeIn'
+
   const [ref, isVisible, hasBeenVisible] = useIntersectionObserver();
-
-  // intervalRef holds the setInterval ID (or null)
   const intervalRef = useRef(null);
-  const transitionDelay = 500;
+  const transitionDelay = 600; // Increased for smoother animations
 
-  // ── Helper to advance to next slide ───────────────────────
-  const goToNext = useCallback(() => {
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
+
+  // ── Enhanced transition with fade and scale ───────────────────────
+  const performTransition = useCallback((direction) => {
     if (isTransitioning) return;
+
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    setTimeout(() => setIsTransitioning(false), transitionDelay);
+    setAnimationPhase('fadeOut');
+
+    // After fade out, change image
+    setTimeout(() => {
+      if (direction === 'next') {
+        setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+      } else {
+        setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+      }
+      setAnimationPhase('fadeIn');
+    }, 200);
+
+    // Complete transition
+    setTimeout(() => {
+      setAnimationPhase('stable');
+      setIsTransitioning(false);
+    }, transitionDelay);
   }, [isTransitioning, images.length]);
 
-  // ── Helper to go to previous slide ───────────────────────
-  const goToPrevious = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    setTimeout(() => setIsTransitioning(false), transitionDelay);
+  const goToNext = useCallback(() => performTransition('next'), [performTransition]);
+  const goToPrevious = useCallback(() => performTransition('prev'), [performTransition]);
+
+  // ── Touch/Swipe handlers ─────────────────────────────────────
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      goToNext();
+      setIsPausedByClick(true);
+    } else if (isRightSwipe) {
+      goToPrevious();
+      setIsPausedByClick(true);
+    }
   };
 
   // ── AUTO-PLAY EFFECT ─────────────────────────────────────
   useEffect(() => {
-    // 1) Clear any existing interval
     if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
 
-    // 2) Start autoplay as soon as:
-    //    • hasBeenVisible is true (i.e. it has faded in once)
-    //    • NOT hovering center image
-    //    • NOT paused by clicking an arrow
-    //    • images.length > 1
     if (hasBeenVisible && !isHovered && !isPausedByClick && images.length > 1) {
       intervalRef.current = window.setInterval(goToNext, autoPlayInterval);
     }
 
-    // 3) Cleanup on unmount or whenever dependencies change
     return () => {
       if (intervalRef.current !== null) {
         clearInterval(intervalRef.current);
@@ -67,10 +100,8 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
     autoPlayInterval,
     images.length,
   ]);
-  // ──────────────────────────────────────────────────────────
 
-  // ── RESET “paused-by-click” WHEN CAROUSEL LEAVES THE VIEWPORT ──
-  // If user scrolls away so that isVisible becomes false, reset isPausedByClick:
+  // ── RESET "paused-by-click" WHEN CAROUSEL LEAVES THE VIEWPORT ──
   useEffect(() => {
     if (!isVisible) {
       setIsPausedByClick(false);
@@ -85,24 +116,30 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
     return idx;
   };
 
-  // ── UTILITY: pick the Tailwind transform class for offset ────
+  // ── Enhanced transform class with animation phases ────
   const getTransformClass = (offset) => {
-    if (offset === -1) return "orbit-left";
-    if (offset === 0) return "orbit-center";
-    if (offset === 1) return "orbit-right";
-    return "hidden";
+    const baseClass = offset === -1 ? "orbit-left" : offset === 0 ? "orbit-center" : offset === 1 ? "orbit-right" : "hidden";
+
+    // Add animation phase modifiers
+    if (offset === 0) { // Only animate the center image
+      if (animationPhase === 'fadeOut') {
+        return `${baseClass} scale-75 opacity-30`;
+      } else if (animationPhase === 'fadeIn') {
+        return `${baseClass} scale-110`;
+      }
+    }
+
+    return baseClass;
   };
 
   return (
-    // ── OUTERMOST WRAPPER: clear isPausedByClick on mouse leave here ──
     <div
-      className="w-full h-[350px] flex items-center justify-center relative"
+      className="w-full h-[350px] flex items-center justify-center relative select-none"
       style={{ backgroundColor: "#0091ad" }}
-      onMouseLeave={() => {
-        // When user moves mouse completely off the carousel,
-        // resume autoplay if it was paused by clicking
-        setIsPausedByClick(false);
-      }}
+      onMouseLeave={() => setIsPausedByClick(false)}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
     >
       <div
         ref={ref}
@@ -116,10 +153,10 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
         <button
           onClick={() => {
             goToPrevious();
-            setIsPausedByClick(true); // PAUSE as soon as user clicks
+            setIsPausedByClick(true);
           }}
           disabled={isTransitioning}
-          className={`absolute left-10 z-30 p-3 rounded-full bg-[rgb(var(--vanilla)/1))] hover:bg-[#5de9ea] shadow-lg transition-all duration-200 ${
+          className={`absolute left-4 md:left-10 z-30 p-2 md:p-3 rounded-full bg-[rgb(var(--vanilla)/1)] hover:bg-[#5de9ea] shadow-lg transition-all duration-200 ${
             isTransitioning ? "opacity-50 cursor-not-allowed" : ""
           } ${
             hasBeenVisible
@@ -128,16 +165,15 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
           }`}
           style={{ transitionDelay: "600ms" }}
         >
-          <span className="text-flame text-xl font-bold">‹</span>
+          <span className="text-flame text-lg md:text-xl font-bold">‹</span>
         </button>
 
         {/* ── THE THREE IMAGES (offset -1, 0, +1) ── */}
-        <div className="flex items-center justify-center space-x-6 relative w-[300px] h-[300px] perspective">
+        <div className="flex items-center justify-center space-x-6 relative w-[250px] md:w-[300px] h-[250px] md:h-[300px] perspective">
           {[-1, 0, 1].map((offset) => {
             const idx = getImageIndex(offset);
             const image = images[idx];
 
-            // If string => { src: string, orientation: "landscape" }
             const src = typeof image === "string" ? image : image.src;
             const description =
               typeof image === "string" ? "" : image.description || "";
@@ -148,10 +184,9 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
 
             const sizeClass =
               orientation === "portrait"
-                ? "w-[180px] h-[240px]"
-                : "w-[240px] h-[180px]";
+                ? "w-[140px] md:w-[180px] h-[180px] md:h-[240px]"
+                : "w-[180px] md:w-[240px] h-[140px] md:h-[180px]";
 
-            // Only the **center image** (offset === 0) receives hover handlers
             const wrapperProps =
               offset === 0
                 ? {
@@ -171,12 +206,15 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
                 <img
                   src={src}
                   alt={description}
-                  className={`w-full h-full object-cover rounded-xl shadow-xl ${
+                  className={`w-full h-full object-cover rounded-xl shadow-xl transition-all duration-300 ease-in-out ${
                     orientation === "portrait" ? "aspect-[3/4]" : "aspect-[4/3]"
+                  } ${
+                    offset === 0 && animationPhase === 'fadeIn' ? 'animate-pulse' : ''
                   }`}
+                  draggable={false}
                 />
                 {description && (
-                  <div className="absolute bottom-0 w-full text-center bg-[#003d4d]/80 text-white text-sm py-1 rounded-b-xl">
+                  <div className="absolute bottom-0 w-full text-center bg-[#003d4d]/80 text-white text-xs md:text-sm py-1 rounded-b-xl">
                     {description}
                   </div>
                 )}
@@ -189,10 +227,10 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
         <button
           onClick={() => {
             goToNext();
-            setIsPausedByClick(true); // PAUSE as soon as user clicks
+            setIsPausedByClick(true);
           }}
           disabled={isTransitioning}
-          className={`absolute right-10 z-30 p-3 rounded-full bg-[rgb(var(--vanilla)/1))] hover:bg-[#5de9ea] shadow-lg transition-all duration-200 ${
+          className={`absolute right-4 md:right-10 z-30 p-2 md:p-3 rounded-full bg-[rgb(var(--vanilla)/1)] hover:bg-[#5de9ea] shadow-lg transition-all duration-200 ${
             isTransitioning ? "opacity-50 cursor-not-allowed" : ""
           } ${
             hasBeenVisible
@@ -201,12 +239,12 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
           }`}
           style={{ transitionDelay: "600ms" }}
         >
-          <span className="text-flame text-xl font-bold">›</span>
+          <span className="text-flame text-lg md:text-xl font-bold">›</span>
         </button>
 
         {/* ── DOTS ── */}
         <div
-          className={`absolute bottom-4 flex space-x-2 transition-all duration-500 ${
+          className={`absolute bottom-2 md:bottom-4 flex space-x-2 transition-all duration-500 ${
             hasBeenVisible
               ? "translate-y-0 opacity-100"
               : "translate-y-4 opacity-0"
@@ -219,14 +257,21 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
               onClick={() => {
                 if (!isTransitioning) {
                   setCurrentIndex(i);
-                  setIsPausedByClick(true); // also pause if user clicks on a dot
+                  setIsPausedByClick(true);
                 }
               }}
-              className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                i === currentIndex ? "bg-[#6efafb]" : "bg-white/50"
+              className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
+                i === currentIndex
+                  ? "bg-[#6efafb] scale-125"
+                  : "bg-white/50 hover:bg-white/70"
               }`}
             />
           ))}
+        </div>
+
+        {/* ── SWIPE INDICATOR (optional visual feedback) ── */}
+        <div className="absolute top-2 right-2 text-white/50 text-xs hidden md:block">
+          Swipe or click to navigate
         </div>
       </div>
     </div>

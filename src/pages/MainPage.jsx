@@ -1,16 +1,13 @@
 // src/pages/MainPage.jsx
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-
-import { LoadingScreen } from "../components/LoadingScreen";
-import { Navbar } from "../components/Navbar";
-import { MobileMenu } from "../components/MobileMenu";
-import { Home } from "../components/sections/Home";
-import { LeftTextSection } from "../components/sections/LeftTextSection";
-import { RightTextSection } from "../components/sections/RightTextSection";
-import { ImageCarousel } from "../components/sections/ImageCarousel";
-import { Footer } from "../components/Footer";
-
+import { LoadingScreen } from "../components/layout/LoadingScreen";
+import { Navbar } from "../components/layout/Navbar";
+import { MobileMenu } from "../components/layout/MobileMenu";
+import { Hero } from "../components/sections/Hero";
+import { TextSection } from "../components/ui/TextSection"; // Only import the new one
+import { ImageCarousel } from "../components/ui/ImageCarousel";
+import { Footer } from "../components/layout/Footer";
 import { mainContent, imageGalleries } from "../data/mainContent";
 
 export default function MainPage({
@@ -20,7 +17,6 @@ export default function MainPage({
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
   const containerRef = useRef(null);
   const location = useLocation();
 
@@ -36,12 +32,10 @@ export default function MainPage({
   // Scroll-to-hash logic (runs only after loader is done)
   useEffect(() => {
     if (!isLoaded) return;
-
     if (location.hash) {
       const id = location.hash.replace("#", "");
       const container = containerRef.current;
       if (!container) return;
-
       container.style.opacity = "0.3";
       setTimeout(() => {
         const elem = document.getElementById(id);
@@ -55,7 +49,7 @@ export default function MainPage({
 
   const handleLoadingComplete = () => {
     setIsLoaded(true);
-    setHasLoadedOnce(true); // Mark that we've shown the loader once
+    setHasLoadedOnce(true);
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "instant" });
     }, 50);
@@ -71,18 +65,20 @@ export default function MainPage({
       <div ref={containerRef} className="pt-16 fade-transition">
         <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-        {/* ---- HERO SECTION (Home) ---- */}
+        {/* ---- HERO SECTION ---- */}
         <section>
-          <Home />
+          <Hero />
         </section>
 
         {/* ---- About Me ("Who Am I?") ---- */}
-        <section>
-          <LeftTextSection title={mainContent.whoAmI.title}>
+        <section id="whoami">
+          {" "}
+          {/* Add this ID */}
+          <TextSection title={mainContent.whoAmI.title} position="left">
             {mainContent.whoAmI.content.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
-          </LeftTextSection>
+          </TextSection>
         </section>
 
         {/* ---- about me carousel ---- */}
@@ -91,12 +87,14 @@ export default function MainPage({
         </section>
 
         {/* ---- My Classroom section ---- */}
-        <section>
-          <RightTextSection title={mainContent.myClassroom.title}>
+        <section id="myclassroom">
+          {" "}
+          {/* Add this ID */}
+          <TextSection title={mainContent.myClassroom.title} position="right">
             {mainContent.myClassroom.content.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
-          </RightTextSection>
+          </TextSection>
         </section>
 
         {/* ---- my classroom carousel ---- */}
@@ -105,19 +103,21 @@ export default function MainPage({
         </section>
 
         {/* ---- Teaching Philosophy ---- */}
-        <section>
-          <LeftTextSection title={mainContent.teachingPhilosophy.title}>
+        <section id="teachingphilosophy">
+          {" "}
+          {/* Add this ID */}
+          <TextSection
+            title={mainContent.teachingPhilosophy.title}
+            position="left">
             {mainContent.teachingPhilosophy.content.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
-          </LeftTextSection>
+          </TextSection>
         </section>
 
         {/* ---- Third Carousel ---- */}
         <section>
-          <ImageCarousel
-            images={mainContent.aboutMeCarousel}
-          />
+          <ImageCarousel images={mainContent.aboutMeCarousel} />
         </section>
 
         <Footer />

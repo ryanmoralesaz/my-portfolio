@@ -29,32 +29,40 @@ body {
     transition: opacity 0.4s ease;
     opacity: 1;
   }
+  /* Enhanced orbit animations with smoother scaling */
   .orbit-left {
     transform: translateX(-150%) rotateY(30deg) scale(0.75);
     opacity: 0.5;
     z-index: 10;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .orbit-center {
     transform: translateX(0%) rotateY(0deg) scale(1);
     opacity: 1;
     z-index: 20;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .orbit-right {
     transform: translateX(150%) rotateY(-30deg) scale(0.75);
     opacity: 0.5;
     z-index: 10;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* Enhanced GPU acceleration for smoother animations */
   .transform-gpu {
     transform-style: preserve-3d;
     backface-visibility: hidden;
+    will-change: transform, opacity;
   }
 
   .perspective {
-    perspective: 1000px;
+    perspective: 1200px;
+    perspective-origin: center center;
   }
+
   /*fonts*/
   .font-mono {
     font-family: "JetBrains Mono", monospace;
@@ -132,6 +140,60 @@ body {
 
   .animate-fadeIn {
     animation: fadeIn 2s ease-in-out forwards;
+  }
+
+  @keyframes imageSlideIn {
+    0% {
+      transform: scale(0.8) rotateY(15deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05) rotateY(0deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1) rotateY(0deg);
+      opacity: 1;
+    }
+  }
+
+  @keyframes imageSlideOut {
+    0% {
+      transform: scale(1) rotateY(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.9) rotateY(-15deg);
+      opacity: 0.3;
+    }
+  }
+
+  .animate-slide-in {
+    animation: imageSlideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-slide-out {
+    animation: imageSlideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /* Enhanced dot animation */
+  @keyframes dotPulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1.25);
+      opacity: 1;
+    }
+  }
+
+  .animate-dot-pulse {
+    animation: dotPulse 0.3s ease-out;
   }
 }
 

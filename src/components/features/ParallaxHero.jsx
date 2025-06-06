@@ -1,5 +1,5 @@
-// src/components/ParallaxHero.jsx
-import React, { useEffect, useRef } from "react";
+// src/components/features/ParallaxHero.jsx
+import React, { useEffect, useRef, useState } from "react";
 
 export const ParallaxHero = ({
   backgroundImage,
@@ -10,18 +10,22 @@ export const ParallaxHero = ({
 }) => {
   const heroRef = useRef(null);
   const backgroundRef = useRef(null);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
+      const newScrollY = window.pageYOffset;
+      setScrollY(newScrollY);
+
       if (!heroRef.current || !backgroundRef.current) return;
 
       const rect = heroRef.current.getBoundingClientRect();
-      const scrolled = window.pageYOffset;
-      const rate = scrolled * -0.5; // Adjust this value to control parallax speed
 
-      // Only apply parallax when the element is in view
-      if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
-        backgroundRef.current.style.transform = `translateY(${rate}px)`;
+      // Only apply parallax when the element is in view or near view
+      if (rect.bottom >= -100 && rect.top <= window.innerHeight + 100) {
+        // Use the same parallax calculation as your Hero component
+        const parallaxOffset = newScrollY * 0.3;
+        backgroundRef.current.style.transform = `translateY(${parallaxOffset}px)`;
       }
     };
 
@@ -37,16 +41,18 @@ export const ParallaxHero = ({
     <section
       ref={heroRef}
       className="relative flex items-center justify-center overflow-hidden"
-      style={{ height }}>
-      {/* Parallax Background */}
+      style={{ height }}
+    >
+      {/* Parallax Background - Fixed like your Hero component */}
       <div
         ref={backgroundRef}
-        className="absolute inset-0 w-full h-[120%] -top-[10%]"
+        className="absolute inset-0"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundAttachment: "fixed", // This creates additional parallax effect
+          backgroundRepeat: "no-repeat",
+          // Remove backgroundAttachment: "fixed" - this was causing the issue
         }}
       />
 
@@ -57,12 +63,12 @@ export const ParallaxHero = ({
       />
 
       {/* Content */}
-      <h1 className="relative text-4xl md:text-5xl font-bold text-bluemunsell z-10">
+      <h1 className="relative text-4xl md:text-5xl font-bold text-bluemunsell z-10 font-michroma">
         {title}
       </h1>
 
-      {/* attribution section */}
-      <div className="absolute bottom-0 right-0 text-bluemunsell p-3">
+      {/* Attribution section */}
+      <div className="absolute bottom-0 right-0 text-bluemunsell p-3 text-sm">
         {attribution}
       </div>
     </section>
