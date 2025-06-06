@@ -70,7 +70,7 @@ export default function MainPage({
         <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
         {/* ---- HERO SECTION ---- */}
-        <section>
+        <section id="home">
           <Hero />
         </section>
 

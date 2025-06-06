@@ -1,6 +1,23 @@
-// Update your MobileMenu component
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleClick = (target) => {
+    setMenuOpen(false);
+    if (target === "home") {
+      if (location.pathname === "/") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        navigate("/", { replace: true });
+      }
+    } else {
+      navigate(`/${target}`, { replace: true });
+    }
+  };
+
   return (
     <>
       {/* Background underlay */}
@@ -15,7 +32,6 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
       <div className={`fixed top-0 left-0 w-full bg-[rgb(var(--vanilla))] z-40 flex flex-col items-center justify-center transition-all duration-300 ease-in-out ${
         menuOpen ? "h-screen opacity-100 pointer-events-auto" : "h-0 opacity-0 pointer-events-none"
       }`}>
-
         <button
           onClick={() => setMenuOpen(false)}
           className="absolute top-6 right-6 text-flame text-3xl focus:outline-none cursor-pointer font-bold"
@@ -24,35 +40,32 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
           &times;
         </button>
 
-        <a
-          href="#home"
-          onClick={() => setMenuOpen(false)}
+        <button
+          onClick={() => handleClick("home")}
           className={`text-2xl font-semibold text-flame my-4 transform transition-transform duration-300 hover:text-bluemunsell ${
             menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
           Home
-        </a>
+        </button>
 
-        <a
-          href="/portfolio"
-          onClick={() => setMenuOpen(false)}
+        <button
+          onClick={() => handleClick("portfolio")}
           className={`text-2xl font-semibold text-flame my-4 transform transition-transform duration-300 hover:text-bluemunsell ${
             menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
           Portfolio
-        </a>
+        </button>
 
-        <a
-          href="/classroom"
-          onClick={() => setMenuOpen(false)}
+        <button
+          onClick={() => handleClick("classroom")}
           className={`text-2xl font-semibold text-flame my-4 transform transition-transform duration-300 hover:text-bluemunsell ${
             menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
           Classroom Technology
-        </a>
+        </button>
       </div>
     </>
   );

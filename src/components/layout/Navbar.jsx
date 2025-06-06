@@ -2,7 +2,8 @@
 import React, { useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
-export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => { // Add containerRef prop
+export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
+  // Add containerRef prop
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => { // Add cont
       scrollToTop();
     } else {
       // Navigate to home without triggering loading screen
-      navigate("/", { replace: false });
+      navigate("/", { replace: true });
     }
   };
 
@@ -57,7 +58,8 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => { // Add cont
     e.preventDefault();
     if (isHomeRoute) {
       // We're already on home, add the fade effect like other pages
-      const container = containerRef?.current || document.querySelector(".fade-transition");
+      const container =
+        containerRef?.current || document.querySelector(".fade-transition");
       if (container) {
         container.style.opacity = "0.3"; // Fade out
         setTimeout(() => {
@@ -82,18 +84,20 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => { // Add cont
 
   return (
     <nav className="fixed top-0 w-full z-40 bg-[rgba(var(--vanilla)/1)] backdrop-blur-lg border-b border-white/10 shadow-lg">
-      <div className="max-w-[1200px] mx-auto px-4">
-        <div className="flex justify-between items-center h-16 relative">
-          {/* Fix logo - remove href, use only onClick */}
+      <div className="max-w-[1200px] mx-auto px-4 relative">
+        {" "}
+        {/* Add relative here */}
+        <div className="flex justify-between items-center h-16">
+          {/* Fix logo */}
           <div onClick={handleHomeClick} className="nav-link cursor-pointer">
-            <div className="text-2xl font-michroma text-flame md:pl-20 pl-4">
+            <div className="text-xl md:text-2xl font-michroma text-flame">
               RyanMorales.info
             </div>
           </div>
 
-          {/* Hamburger icon for mobile - MOVED TO RIGHT */}
+          {/* Hamburger icon - now relative to container, not viewport */}
           <div
-            className={`md:hidden absolute right-4 w-7 h-5 flex items-center justify-center cursor-pointer z-50 text-flame text-xl font-bold ${
+            className={`md:hidden flex items-center justify-center cursor-pointer z-50 text-flame text-xl font-bold ${
               menuOpen ? "opacity-0" : "opacity-100"
             }`}
             onClick={() => setMenuOpen(prev => !prev)}>
@@ -106,7 +110,9 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => { // Add cont
             <li className="relative group">
               <button
                 onClick={handleHomeClick}
-                className={`nav-link ${isHomeRoute ? "font-bold" : ""} bg-transparent border-none`}>
+                className={`nav-link ${
+                  isHomeRoute ? "font-bold" : ""
+                } bg-transparent border-none`}>
                 Home <span className="text-xs">&#x25bc;</span>
               </button>
 
@@ -135,7 +141,9 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => { // Add cont
                 </li>
                 <li>
                   <button
-                    onClick={e => handleHomeSectionClick(e, "teachingphilosophy")}
+                    onClick={e =>
+                      handleHomeSectionClick(e, "teachingphilosophy")
+                    }
                     className="block w-full text-left px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue bg-transparent border-none">
                     Teaching Philosophy
                   </button>
@@ -147,7 +155,9 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => { // Add cont
             <li className="relative group">
               <button
                 onClick={handlePortfolioClick}
-                className={`nav-link ${isPortfolioRoute ? "font-bold" : ""} bg-transparent border-none`}>
+                className={`nav-link ${
+                  isPortfolioRoute ? "font-bold" : ""
+                } bg-transparent border-none`}>
                 Portfolio <span className="text-xs">&#x25bc;</span>
               </button>
 
@@ -180,7 +190,9 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => { // Add cont
             <li className="relative group">
               <button
                 onClick={handleClassroomClick}
-                className={`nav-link ${isClassroomRoute ? "font-bold" : ""} bg-transparent border-none`}>
+                className={`nav-link ${
+                  isClassroomRoute ? "font-bold" : ""
+                } bg-transparent border-none`}>
                 Classroom Technology <span className="text-xs">&#x25bc;</span>
               </button>
 

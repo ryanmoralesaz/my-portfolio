@@ -34,7 +34,7 @@ export default function PortfolioPage() {
 
   return (
     <>
-      <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} containerRef={null} />
       <div ref={containerRef} className="pt-16 fade-transition">
         <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
