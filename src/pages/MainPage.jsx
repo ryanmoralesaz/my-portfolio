@@ -117,9 +117,9 @@ export default function MainPage({
         <section id="carousel3">
           <ImageCarousel
             images={[
-              "/juliacameron.jpg",
-              "/ryan-nobg.png",
-              "/juliacameron.jpg",
+              "/computer-keyboard.jpg",
+              "/computer-keyboard.jpg",
+              "/computer-keyboard.jpg",
             ]}
           />
         </section>
