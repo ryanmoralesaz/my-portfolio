@@ -17,6 +17,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
 
   const [ref, isVisible, hasBeenVisible] = useIntersectionObserver();
   const intervalRef = useRef(null);
+  const carouselRef = useRef(null); // Add ref for carousel container
   const transitionDelay = 600; // Increased for smoother animations
 
   // Minimum swipe distance (in px)
@@ -49,17 +50,19 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   const goToNext = useCallback(() => performTransition('next'), [performTransition]);
   const goToPrevious = useCallback(() => performTransition('prev'), [performTransition]);
 
-  // ── Touch/Swipe handlers ─────────────────────────────────────
-  const onTouchStart = (e) => {
+  // ── Touch/Swipe handlers with proper event listener setup ─────────────────────────────────────
+  const handleTouchStart = useCallback((e) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
-  };
+  }, []);
 
-  const onTouchMove = (e) => {
+  const handleTouchMove = useCallback((e) => {
     setTouchEnd(e.targetTouches[0].clientX);
-  };
+    // Prevent page scrolling during swipe
+    e.preventDefault();
+  }, []);
 
-  const onTouchEnd = () => {
+  const handleTouchEnd = useCallback(() => {
     if (!touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
@@ -73,7 +76,25 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
       goToPrevious();
       setIsPausedByClick(true);
     }
-  };
+  }, [touchStart, touchEnd, goToNext, goToPrevious, minSwipeDistance]);
+
+  // Setup non-passive event listeners
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    // Add non-passive event listeners
+    carousel.addEventListener('touchstart', handleTouchStart, { passive: false });
+    carousel.addEventListener('touchmove', handleTouchMove, { passive: false });
+    carousel.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+    return () => {
+      // Cleanup
+      carousel.removeEventListener('touchstart', handleTouchStart);
+      carousel.removeEventListener('touchmove', handleTouchMove);
+      carousel.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   // ── AUTO-PLAY EFFECT ─────────────────────────────────────
   useEffect(() => {
@@ -134,12 +155,14 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
 
   return (
     <div
-      className="w-full h-[350px] flex items-center justify-center relative select-none"
-      style={{ backgroundColor: "#0091ad" }}
+      ref={carouselRef} // Add the ref here
+      className="w-full h-[350px] flex items-center justify-center relative select-none carousel-container"
+      style={{
+        backgroundColor: "#0091ad",
+        touchAction: "pan-y" // Allow vertical scrolling but prevent horizontal
+      }}
       onMouseLeave={() => setIsPausedByClick(false)}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
+      // Remove the onTouch handlers since we're using addEventListener
     >
       <div
         ref={ref}

@@ -25,6 +25,12 @@ body {
 }
 
 @layer utilities {
+  /* Prevent page bouncing and overscroll */
+  .carousel-container {
+    touch-action: pan-y;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
   .fade-transition {
     transition: opacity 0.4s ease;
     opacity: 1;
