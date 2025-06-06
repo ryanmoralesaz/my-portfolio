@@ -1,6 +1,6 @@
 // src/App.jsx
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import ClassroomTechPage from "./pages/ClassroomTechPage";
@@ -46,8 +46,8 @@ function AppContent() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppContent />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
