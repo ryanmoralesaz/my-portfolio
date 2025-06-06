@@ -13,7 +13,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   const [touchEnd, setTouchEnd] = useState(null);
 
   // Animation state for smoother transitions
-  const [animationPhase, setAnimationPhase] = useState('stable'); // 'stable', 'fadeOut', 'fadeIn'
+  const [animationPhase, setAnimationPhase] = useState("stable"); // 'stable', 'fadeOut', 'fadeIn'
 
   const [ref, isVisible, hasBeenVisible] = useIntersectionObserver();
   const intervalRef = useRef(null);
@@ -24,39 +24,48 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   const minSwipeDistance = 50;
 
   // ── Enhanced transition with fade and scale ───────────────────────
-  const performTransition = useCallback((direction) => {
-    if (isTransitioning) return;
+  const performTransition = useCallback(
+    direction => {
+      if (isTransitioning) return;
 
-    setIsTransitioning(true);
-    setAnimationPhase('fadeOut');
+      setIsTransitioning(true);
+      setAnimationPhase("fadeOut");
 
-    // After fade out, change image
-    setTimeout(() => {
-      if (direction === 'next') {
-        setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-      } else {
-        setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-      }
-      setAnimationPhase('fadeIn');
-    }, 200);
+      // After fade out, change image
+      setTimeout(() => {
+        if (direction === "next") {
+          setCurrentIndex(prev => (prev === images.length - 1 ? 0 : prev + 1));
+        } else {
+          setCurrentIndex(prev => (prev === 0 ? images.length - 1 : prev - 1));
+        }
+        setAnimationPhase("fadeIn");
+      }, 200);
 
-    // Complete transition
-    setTimeout(() => {
-      setAnimationPhase('stable');
-      setIsTransitioning(false);
-    }, transitionDelay);
-  }, [isTransitioning, images.length]);
+      // Complete transition
+      setTimeout(() => {
+        setAnimationPhase("stable");
+        setIsTransitioning(false);
+      }, transitionDelay);
+    },
+    [isTransitioning, images.length]
+  );
 
-  const goToNext = useCallback(() => performTransition('next'), [performTransition]);
-  const goToPrevious = useCallback(() => performTransition('prev'), [performTransition]);
+  const goToNext = useCallback(
+    () => performTransition("next"),
+    [performTransition]
+  );
+  const goToPrevious = useCallback(
+    () => performTransition("prev"),
+    [performTransition]
+  );
 
   // ── Touch/Swipe handlers with proper event listener setup ─────────────────────────────────────
-  const handleTouchStart = useCallback((e) => {
+  const handleTouchStart = useCallback(e => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
   }, []);
 
-  const handleTouchMove = useCallback((e) => {
+  const handleTouchMove = useCallback(e => {
     setTouchEnd(e.targetTouches[0].clientX);
     // Prevent page scrolling during swipe
     e.preventDefault();
@@ -84,15 +93,17 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
     if (!carousel) return;
 
     // Add non-passive event listeners
-    carousel.addEventListener('touchstart', handleTouchStart, { passive: false });
-    carousel.addEventListener('touchmove', handleTouchMove, { passive: false });
-    carousel.addEventListener('touchend', handleTouchEnd, { passive: false });
+    carousel.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
+    carousel.addEventListener("touchmove", handleTouchMove, { passive: false });
+    carousel.addEventListener("touchend", handleTouchEnd, { passive: false });
 
     return () => {
       // Cleanup
-      carousel.removeEventListener('touchstart', handleTouchStart);
-      carousel.removeEventListener('touchmove', handleTouchMove);
-      carousel.removeEventListener('touchend', handleTouchEnd);
+      carousel.removeEventListener("touchstart", handleTouchStart);
+      carousel.removeEventListener("touchmove", handleTouchMove);
+      carousel.removeEventListener("touchend", handleTouchEnd);
     };
   }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
 
@@ -130,7 +141,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   }, [isVisible]);
 
   // ── UTILITY: wrap index around [-1, 0, +1] ─────────────────
-  const getImageIndex = (offset) => {
+  const getImageIndex = offset => {
     const idx = currentIndex + offset;
     if (idx < 0) return images.length + idx;
     if (idx >= images.length) return idx - images.length;
@@ -138,14 +149,22 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   };
 
   // ── Enhanced transform class with animation phases ────
-  const getTransformClass = (offset) => {
-    const baseClass = offset === -1 ? "orbit-left" : offset === 0 ? "orbit-center" : offset === 1 ? "orbit-right" : "hidden";
+  const getTransformClass = offset => {
+    const baseClass =
+      offset === -1
+        ? "orbit-left"
+        : offset === 0
+        ? "orbit-center"
+        : offset === 1
+        ? "orbit-right"
+        : "hidden";
 
     // Add animation phase modifiers
-    if (offset === 0) { // Only animate the center image
-      if (animationPhase === 'fadeOut') {
+    if (offset === 0) {
+      // Only animate the center image
+      if (animationPhase === "fadeOut") {
         return `${baseClass} scale-75 opacity-30`;
-      } else if (animationPhase === 'fadeIn') {
+      } else if (animationPhase === "fadeIn") {
         return `${baseClass} scale-110`;
       }
     }
@@ -156,10 +175,10 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   return (
     <div
       ref={carouselRef} // Add the ref here
-      className="w-full h-[350px] flex items-center justify-center relative select-none carousel-container"
+      className="w-full relative overflow-hidden touch-pan-y py-12 flex items-center justify-center select-none carousel-container"
       style={{
         backgroundColor: "#0091ad",
-        touchAction: "pan-y" // Allow vertical scrolling but prevent horizontal
+        touchAction: "pan-y", // Allow vertical scrolling but prevent horizontal
       }}
       onMouseLeave={() => setIsPausedByClick(false)}
       // Remove the onTouch handlers since we're using addEventListener
@@ -170,8 +189,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
           hasBeenVisible
             ? "translate-y-0 opacity-100"
             : "translate-y-20 opacity-0"
-        }`}
-      >
+        }`}>
         {/* ── LEFT ARROW ── */}
         <button
           onClick={() => {
@@ -186,14 +204,13 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
               ? "translate-x-0 opacity-100"
               : "-translate-x-10 opacity-0"
           }`}
-          style={{ transitionDelay: "600ms" }}
-        >
+          style={{ transitionDelay: "600ms" }}>
           <span className="text-flame text-lg md:text-xl font-bold">‹</span>
         </button>
 
         {/* ── THE THREE IMAGES (offset -1, 0, +1) ── */}
         <div className="flex items-center justify-center space-x-6 relative w-[250px] md:w-[300px] h-[250px] md:h-[300px] perspective">
-          {[-1, 0, 1].map((offset) => {
+          {[-1, 0, 1].map(offset => {
             const idx = getImageIndex(offset);
             const image = images[idx];
 
@@ -224,15 +241,16 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
                 className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
                            transition-all duration-500 ease-in-out transform-gpu
                            ${sizeClass} ${getTransformClass(offset)}`}
-                {...wrapperProps}
-              >
+                {...wrapperProps}>
                 <img
                   src={src}
                   alt={description}
                   className={`w-full h-full object-cover rounded-xl shadow-xl transition-all duration-300 ease-in-out ${
                     orientation === "portrait" ? "aspect-[3/4]" : "aspect-[4/3]"
                   } ${
-                    offset === 0 && animationPhase === 'fadeIn' ? 'animate-pulse' : ''
+                    offset === 0 && animationPhase === "fadeIn"
+                      ? "animate-pulse"
+                      : ""
                   }`}
                   draggable={false}
                 />
@@ -260,8 +278,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
               ? "translate-x-0 opacity-100"
               : "translate-x-10 opacity-0"
           }`}
-          style={{ transitionDelay: "600ms" }}
-        >
+          style={{ transitionDelay: "600ms" }}>
           <span className="text-flame text-lg md:text-xl font-bold">›</span>
         </button>
 
@@ -272,8 +289,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
               ? "translate-y-0 opacity-100"
               : "translate-y-4 opacity-0"
           }`}
-          style={{ transitionDelay: "800ms" }}
-        >
+          style={{ transitionDelay: "800ms" }}>
           {images.map((_, i) => (
             <button
               key={i}

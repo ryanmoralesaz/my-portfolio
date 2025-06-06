@@ -34,10 +34,13 @@ export default function PortfolioPage() {
 
   return (
     <>
-      <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} containerRef={null} />
+      <Navbar
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        containerRef={null}
+      />
+      <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <div ref={containerRef} className="pt-16 fade-transition">
-        <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-
         {/* Parallax Hero Section */}
         <ParallaxHero
           backgroundImage="/sora.jpg"

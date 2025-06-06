@@ -66,9 +66,8 @@ export default function MainPage({
         setMenuOpen={setMenuOpen}
         containerRef={containerRef} // Pass the containerRef
       />
+      <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <div ref={containerRef} className="pt-16 fade-transition">
-        <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-
         {/* ---- HERO SECTION ---- */}
         <section id="home">
           <Hero />

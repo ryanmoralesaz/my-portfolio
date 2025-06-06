@@ -1,76 +1,70 @@
 // src/components/features/ParallaxHero.jsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export const ParallaxHero = ({
   backgroundImage,
   title,
   height = "400px",
-  overlayOpacity,
+  overlayOpacity = 1, // Default to no overlay
   attribution,
 }) => {
-  const heroRef = useRef(null);
-  const backgroundRef = useRef(null);
-  const [scrollY, setScrollY] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
+  // Preload the background image
   useEffect(() => {
-    const handleScroll = () => {
-      const newScrollY = window.pageYOffset;
-      setScrollY(newScrollY);
-
-      if (!heroRef.current || !backgroundRef.current) return;
-
-      const rect = heroRef.current.getBoundingClientRect();
-
-      // Only apply parallax when the element is in view or near view
-      if (rect.bottom >= -100 && rect.top <= window.innerHeight + 100) {
-        // Use the same parallax calculation as your Hero component
-        const parallaxOffset = newScrollY * 0.3;
-        backgroundRef.current.style.transform = `translateY(${parallaxOffset}px)`;
-      }
+    const img = new Image();
+    img.onload = () => {
+      setImageLoaded(true);
     };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial call
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    img.src = backgroundImage;
+  }, [backgroundImage]);
 
   return (
     <section
-      ref={heroRef}
-      className="relative flex items-center justify-center overflow-hidden"
-      style={{ height }}
-    >
-      {/* Parallax Background - Fixed like your Hero component */}
+      className="relative flex items-center justify-center overflow-hidden bg-vanilla"
+      style={{ height }}>
+      {/* Background wrapper that fades in when loaded */}
       <div
-        ref={backgroundRef}
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          // Remove backgroundAttachment: "fixed" - this was causing the issue
-        }}
-      />
+        className={`absolute inset-0 transition-opacity duration-500 ${
+          imageLoaded ? "opacity-100" : "opacity-0"
+        }`}>
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundAttachment: "fixed",
+          }}
+        />
 
-      {/* Overlay */}
-      <div
-        className="absolute inset-0 bg-[rgb(255,255,255)]"
-        style={{ opacity: overlayOpacity }}
-      />
-
-      {/* Content */}
-      <h1 className="relative text-4xl md:text-5xl font-bold text-bluemunsell z-10 font-michroma">
-        {title}
-      </h1>
-
-      {/* Attribution section */}
-      <div className="absolute bottom-0 right-0 text-bluemunsell p-3 text-sm">
-        {attribution}
+        {/* Overlay - Only render if opacity > 0 */}
+        {overlayOpacity > 0 && (
+          <div
+            className="absolute inset-0 bg-[rgb(var(--bluemunsell))]"
+            style={{ opacity: overlayOpacity }}
+          />
+        )}
       </div>
+
+      {/* Content - Always visible */}
+      <div className="relative text-center px-4 z-10">
+        <h1
+          className={`text-4xl md:text-6xl font-bold mb-4 transition-colors duration-500 ${
+            imageLoaded ? "text-white drop-shadow-lg" : "text-flame"
+          }`}>
+          {title}
+        </h1>
+      </div>
+
+      {/* Attribution - fades in with background */}
+      {attribution && (
+        <div
+          className={`absolute bottom-2 right-2 text-xs p-1 transition-opacity duration-500 ${
+            imageLoaded ? "opacity-100 text-white/70 drop-shadow" : "opacity-0"
+          }`}>
+          {attribution}
+        </div>
+      )}
     </section>
   );
 };

@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
-  // Add containerRef prop
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -11,29 +10,23 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
   }, [menuOpen]);
 
-  // Determine which top‐level route we're on:
   const isHomeRoute = location.pathname === "/";
   const isPortfolioRoute = location.pathname.startsWith("/portfolio");
   const isClassroomRoute = location.pathname.startsWith("/classroom");
 
-  // Scroll‐to‐top utility:
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Click‐handler for "Home" and Logo:
   const handleHomeClick = e => {
     e.preventDefault();
     if (isHomeRoute) {
-      // If we're already on home, just scroll to top without reload
       scrollToTop();
     } else {
-      // Navigate to home without triggering loading screen
       navigate("/", { replace: true });
     }
   };
 
-  // Click‐handler for "Portfolio":
   const handlePortfolioClick = e => {
     e.preventDefault();
     if (isPortfolioRoute) {
@@ -43,7 +36,6 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
     }
   };
 
-  // Click‐handler for "Classroom Technology":
   const handleClassroomClick = e => {
     e.preventDefault();
     if (isClassroomRoute) {
@@ -53,61 +45,67 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
     }
   };
 
-  // Handle home section links - these should NOT trigger navigation
   const handleHomeSectionClick = (e, sectionId) => {
     e.preventDefault();
     if (isHomeRoute) {
-      // We're already on home, add the fade effect like other pages
       const container =
         containerRef?.current || document.querySelector(".fade-transition");
       if (container) {
-        container.style.opacity = "0.3"; // Fade out
+        container.style.opacity = "0.3";
         setTimeout(() => {
           const element = document.getElementById(sectionId);
           if (element) {
             element.scrollIntoView({ behavior: "smooth" });
           }
-          container.style.opacity = "1"; // Fade back in
+          container.style.opacity = "1";
         }, 400);
       } else {
-        // Fallback if container not found
         const element = document.getElementById(sectionId);
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
         }
       }
     } else {
-      // Navigate to home with hash
       navigate(`/#${sectionId}`, { replace: false });
     }
   };
 
+  // Common dropdown styles
+  const dropdownStyles = {
+    zIndex: 10000,
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    marginTop: 0
+  };
+
   return (
-    <nav className="fixed top-0 w-full z-40 bg-[rgba(var(--vanilla)/1)] backdrop-blur-lg border-b border-white/10 shadow-lg">
-      <div className="max-w-[1200px] mx-auto px-4 relative">
-        {" "}
-        {/* Add relative here */}
-        <div className="flex justify-between items-center h-16">
-          {/* Fix logo */}
+    <nav
+      className="fixed top-0 w-full bg-[rgba(var(--vanilla)/1)] backdrop-blur-lg border-b border-white/10 shadow-lg"
+      style={{ zIndex: 9999, overflow: 'visible' }}>
+      <div className="max-w-[1200px] mx-auto px-4 relative" style={{ overflow: 'visible' }}>
+        <div className="flex justify-between items-center h-16" style={{ overflow: 'visible' }}>
+          {/* Logo */}
           <div onClick={handleHomeClick} className="nav-link cursor-pointer">
             <div className="text-xl md:text-2xl font-michroma text-flame">
               RyanMorales.info
             </div>
           </div>
 
-          {/* Hamburger icon - now relative to container, not viewport */}
+          {/* Hamburger icon */}
           <div
-            className={`md:hidden flex items-center justify-center cursor-pointer z-50 text-flame text-xl font-bold ${
+            className={`md:hidden flex items-center justify-center cursor-pointer text-flame text-xl font-bold ${
               menuOpen ? "opacity-0" : "opacity-100"
             }`}
+            style={{ zIndex: 10001 }}
             onClick={() => setMenuOpen(prev => !prev)}>
             &#9776;
           </div>
 
           {/* Desktop menu */}
-          <ul className="hidden md:flex items-center space-x-6">
+          <ul className="hidden md:flex items-center space-x-6" style={{ overflow: 'visible' }}>
             {/* ─── HOME DROPDOWN ─── */}
-            <li className="relative group">
+            <li className="relative group" style={{ overflow: 'visible' }}>
               <button
                 onClick={handleHomeClick}
                 className={`nav-link ${
@@ -117,7 +115,9 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
               </button>
 
               {/* Submenu */}
-              <ul className="absolute top-full left-0 mt-0 w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
+              <ul
+                className="w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
+                style={dropdownStyles}>
                 <li className="border-b last:border-none">
                   <button
                     onClick={handleHomeClick}
@@ -152,7 +152,7 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
             </li>
 
             {/* ─── PORTFOLIO DROPDOWN ─── */}
-            <li className="relative group">
+            <li className="relative group" style={{ overflow: 'visible' }}>
               <button
                 onClick={handlePortfolioClick}
                 className={`nav-link ${
@@ -161,7 +161,10 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
                 Portfolio <span className="text-xs">&#x25bc;</span>
               </button>
 
-              <ul className="absolute top-full left-0 mt-0 w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
+              {/* Submenu */}
+              <ul
+                className="w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
+                style={dropdownStyles}>
                 <li className="border-b last:border-none">
                   <a
                     href="/portfolio#portfolio"
@@ -187,7 +190,7 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
             </li>
 
             {/* ─── CLASSROOM TECHNOLOGY DROPDOWN ─── */}
-            <li className="relative group">
+            <li className="relative group" style={{ overflow: 'visible' }}>
               <button
                 onClick={handleClassroomClick}
                 className={`nav-link ${
@@ -196,7 +199,10 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
                 Classroom Technology <span className="text-xs">&#x25bc;</span>
               </button>
 
-              <ul className="absolute top-full left-0 mt-0 w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
+              {/* Submenu */}
+              <ul
+                className="w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
+                style={dropdownStyles}>
                 <li className="border-b last:border-none">
                   <a
                     href="/classroom#how-i-use-technology"

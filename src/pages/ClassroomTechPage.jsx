@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Navbar } from "../components/layout/Navbar";
 import { MobileMenu } from "../components/layout/MobileMenu";
 import { ParallaxHero } from "../components/features/ParallaxHero";
-import { TextSection } from "../components/ui/TextSection"; // Use new TextSection
+import { TextSection } from "../components/ui/TextSection";
 import { ImageCarousel } from "../components/ui/ImageCarousel";
 import { IframeSection } from "../components/sections/IFrameSection";
 import { Footer } from "../components/layout/Footer";
@@ -35,10 +35,14 @@ export default function ClassroomTechPage() {
 
   return (
     <>
-      <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} containerRef={null} />
-      <div ref={containerRef} className="pt-16 fade-transition">
-        <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Navbar
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        containerRef={containerRef} // Pass the containerRef here
+      />
+      <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
+      <div ref={containerRef} className="pt-16 fade-transition">
         {/* Parallax Hero Section */}
         <ParallaxHero
           backgroundImage="/computer-keyboard.jpg"
@@ -61,21 +65,29 @@ export default function ClassroomTechPage() {
           <TextSection title="Digital Citizenship" position="right">
             <p>{classroomTechContent.digitalCitationText}</p>
           </TextSection>
-          <ImageCarousel images={classroomTechContent.digitalCitationCarousel} />
+          <ImageCarousel
+            images={classroomTechContent.digitalCitationCarousel}
+          />
         </section>
 
         <section id="student-tech-engagement">
           <TextSection title="Student Technology Engagement" position="left">
             <p>{classroomTechContent.studentEngagementText}</p>
           </TextSection>
-          <ImageCarousel images={classroomTechContent.studentEngagementCarousel} />
+          <ImageCarousel
+            images={classroomTechContent.studentEngagementCarousel}
+          />
         </section>
 
         <section id="culturally-relevant-learning">
-          <TextSection title="Culturally Relevant Learning Strategies" position="right">
+          <TextSection
+            title="Culturally Relevant Learning Strategies"
+            position="right">
             <p>{classroomTechContent.culturallyRelevantText}</p>
           </TextSection>
-          <ImageCarousel images={classroomTechContent.culturallyRelevantCarousel} />
+          <ImageCarousel
+            images={classroomTechContent.culturallyRelevantCarousel}
+          />
         </section>
 
         <Footer />
