@@ -1,8 +1,8 @@
-// src/components/Navbar.jsx
+// src/components/layout/Navbar.jsx
 import React, { useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
-export const Navbar = ({ menuOpen, setMenuOpen }) => {
+export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => { // Add containerRef prop
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -20,11 +20,11 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Click‐handler for "Home":
+  // Click‐handler for "Home" and Logo:
   const handleHomeClick = e => {
     e.preventDefault();
     if (isHomeRoute) {
-      // If we're already on home and clicking home, just scroll to top
+      // If we're already on home, just scroll to top without reload
       scrollToTop();
     } else {
       // Navigate to home without triggering loading screen
@@ -57,7 +57,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
     e.preventDefault();
     if (isHomeRoute) {
       // We're already on home, add the fade effect like other pages
-      const container = document.querySelector(".fade-transition"); // Target the main container
+      const container = containerRef?.current || document.querySelector(".fade-transition");
       if (container) {
         container.style.opacity = "0.3"; // Fade out
         setTimeout(() => {
@@ -79,15 +79,18 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
       navigate(`/#${sectionId}`, { replace: false });
     }
   };
+
   return (
     <nav className="fixed top-0 w-full z-40 bg-[rgba(var(--vanilla)/1)] backdrop-blur-lg border-b border-white/10 shadow-lg">
       <div className="max-w-[1200px] mx-auto px-4">
         <div className="flex justify-between items-center h-16 relative">
-          <a href="/" onClick={handleHomeClick} className={`nav-link`}>
+          {/* Fix logo - remove href, use only onClick */}
+          <div onClick={handleHomeClick} className="nav-link cursor-pointer">
             <div className="text-2xl font-michroma text-flame md:pl-20 pl-4">
               RyanMorales.info
             </div>
-          </a>
+          </div>
+
           {/* Hamburger icon for mobile - MOVED TO RIGHT */}
           <div
             className={`md:hidden absolute right-4 w-7 h-5 flex items-center justify-center cursor-pointer z-50 text-flame text-xl font-bold ${
@@ -96,56 +99,57 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
             onClick={() => setMenuOpen(prev => !prev)}>
             &#9776;
           </div>
+
           {/* Desktop menu */}
           <ul className="hidden md:flex items-center space-x-6">
             {/* ─── HOME DROPDOWN ─── */}
             <li className="relative group">
-              <a
-                href="/"
+              <button
                 onClick={handleHomeClick}
-                className={`nav-link ${isHomeRoute ? "font-bold" : ""}`}>
+                className={`nav-link ${isHomeRoute ? "font-bold" : ""} bg-transparent border-none`}>
                 Home <span className="text-xs">&#x25bc;</span>
-              </a>
+              </button>
 
-              {/* Submenu (dark text, no gap) */}
+              {/* Submenu */}
               <ul className="absolute top-full left-0 mt-0 w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
                 <li className="border-b last:border-none">
-                  <a
-                    href="/#whoami"
-                    onClick={e => handleHomeSectionClick(e, "whoami")}
-                    className="block px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue">
-                    About Me
-                  </a>
+                  <button
+                    onClick={handleHomeClick}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue bg-transparent border-none">
+                    Home
+                  </button>
                 </li>
                 <li className="border-b last:border-none">
-                  <a
-                    href="/#myclassroom"
+                  <button
+                    onClick={e => handleHomeSectionClick(e, "whoami")}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue bg-transparent border-none">
+                    About Me
+                  </button>
+                </li>
+                <li className="border-b last:border-none">
+                  <button
                     onClick={e => handleHomeSectionClick(e, "myclassroom")}
-                    className="block px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue">
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue bg-transparent border-none">
                     My Classroom
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a
-                    href="/#teachingphilosophy"
-                    onClick={e =>
-                      handleHomeSectionClick(e, "teachingphilosophy")
-                    }
-                    className="block px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue">
+                  <button
+                    onClick={e => handleHomeSectionClick(e, "teachingphilosophy")}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue bg-transparent border-none">
                     Teaching Philosophy
-                  </a>
+                  </button>
                 </li>
               </ul>
             </li>
 
             {/* ─── PORTFOLIO DROPDOWN ─── */}
             <li className="relative group">
-              <a
-                href="/portfolio"
+              <button
                 onClick={handlePortfolioClick}
-                className={`nav-link ${isPortfolioRoute ? "font-bold" : ""}`}>
+                className={`nav-link ${isPortfolioRoute ? "font-bold" : ""} bg-transparent border-none`}>
                 Portfolio <span className="text-xs">&#x25bc;</span>
-              </a>
+              </button>
 
               <ul className="absolute top-full left-0 mt-0 w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
                 <li className="border-b last:border-none">
@@ -174,12 +178,11 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
 
             {/* ─── CLASSROOM TECHNOLOGY DROPDOWN ─── */}
             <li className="relative group">
-              <a
-                href="/classroom"
+              <button
                 onClick={handleClassroomClick}
-                className={`nav-link ${isClassroomRoute ? "font-bold" : ""}`}>
+                className={`nav-link ${isClassroomRoute ? "font-bold" : ""} bg-transparent border-none`}>
                 Classroom Technology <span className="text-xs">&#x25bc;</span>
-              </a>
+              </button>
 
               <ul className="absolute top-full left-0 mt-0 w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
                 <li className="border-b last:border-none">

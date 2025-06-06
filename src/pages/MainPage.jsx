@@ -61,7 +61,11 @@ export default function MainPage({
 
   return (
     <>
-      <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Navbar
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        containerRef={containerRef} // Pass the containerRef
+      />
       <div ref={containerRef} className="pt-16 fade-transition">
         <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
