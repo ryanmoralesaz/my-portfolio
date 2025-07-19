@@ -1,25 +1,11 @@
 import { useRef, useState, useEffect } from "react";
 
-/**
- * A simple IntersectionObserver hook in plain JS.
- *
- * Returns: [ref, isVisible, hasBeenVisible]
- *  - ref: attach to your <div ref={ref}>…
- *  - isVisible: true/false as soon as the element intersects
- *  - hasBeenVisible: flips true once it intersects after the user has scrolled 50px
- */
 export function useIntersectionObserver(options = {}) {
-  // 1) useRef(null) ⇒ ref.current is either the element or null
   const elementRef = useRef(null);
-
-  // 2) Track whether it’s currently intersecting
   const [isVisible, setIsVisible] = useState(false);
-
-  // 3) Track if it’s ever become visible (after the user scrolled down 50px)
   const [hasBeenVisible, setHasBeenVisible] = useState(false);
-
-  // 4) Track if user has scrolled at all
   const [hasScrolled, setHasScrolled] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -27,21 +13,34 @@ export function useIntersectionObserver(options = {}) {
       }
     };
     window.addEventListener("scroll", handleScroll);
+
+    // Check initial scroll position
+    if (window.scrollY > 50) {
+      setHasScrolled(true);
+    }
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 5) Set up the IntersectionObserver
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
-        if (entry.isIntersecting && !hasBeenVisible && hasScrolled) {
-          setHasBeenVisible(true);
+
+        // Modified logic: Allow first section to trigger without scrolling
+        const element = elementRef.current;
+        const isFirstSection = element && element.closest('#whoami'); // Check if it's the first content section
+
+        if (entry.isIntersecting && !hasBeenVisible) {
+          // For first section OR if user has scrolled
+          if (isFirstSection || hasScrolled) {
+            setHasBeenVisible(true);
+          }
         }
       },
       {
-        threshold: 0.3,
-        rootMargin: "-100px 0px -100px 0px",
+        threshold: 0.1, // Much lower threshold - trigger when 10% is visible
+        rootMargin: "0px 0px -50px 0px", // Less aggressive margin
         ...options,
       }
     );
@@ -50,6 +49,7 @@ export function useIntersectionObserver(options = {}) {
     if (el) {
       observer.observe(el);
     }
+
     return () => {
       if (el) {
         observer.unobserve(el);
