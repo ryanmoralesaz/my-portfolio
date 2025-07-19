@@ -11,7 +11,7 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
   }, [menuOpen]);
 
   const isHomeRoute = location.pathname === "/";
-  const isPortfolioRoute = location.pathname.startsWith("/portfolio");
+  // const isPortfolioRoute = location.pathname.startsWith("/portfolio");
   const isClassroomRoute = location.pathname.startsWith("/classroom");
 
   const scrollToTop = () => {
@@ -27,14 +27,14 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
     }
   };
 
-  const handlePortfolioClick = e => {
-    e.preventDefault();
-    if (isPortfolioRoute) {
-      scrollToTop();
-    } else {
-      navigate("/portfolio", { replace: false });
-    }
-  };
+  // const handlePortfolioClick = e => {
+  //   e.preventDefault();
+  //   if (isPortfolioRoute) {
+  //     scrollToTop();
+  //   } else {
+  //     navigate("/portfolio", { replace: false });
+  //   }
+  // };
 
   const handleClassroomClick = e => {
     e.preventDefault();
@@ -139,7 +139,7 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
                     My Classroom
                   </button>
                 </li>
-                <li>
+                {/* <li>
                   <button
                     onClick={e =>
                       handleHomeSectionClick(e, "teachingphilosophy")
@@ -147,12 +147,12 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
                     className="block w-full text-left px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue bg-transparent border-none">
                     Teaching Philosophy
                   </button>
-                </li>
+                </li> */}
               </ul>
             </li>
 
             {/* ─── PORTFOLIO DROPDOWN ─── */}
-            <li className="relative group" style={{ overflow: 'visible' }}>
+            {/* <li className="relative group" style={{ overflow: 'visible' }}>
               <button
                 onClick={handlePortfolioClick}
                 className={`nav-link ${
@@ -160,8 +160,6 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
                 } bg-transparent border-none`}>
                 Portfolio <span className="text-xs">&#x25bc;</span>
               </button>
-
-              {/* Submenu */}
               <ul
                 className="w-48 bg-[rgb(var(--flame)/1)] text-bluemunsell rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
                 style={dropdownStyles}>
@@ -187,7 +185,7 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
             {/* ─── CLASSROOM TECHNOLOGY DROPDOWN ─── */}
             <li className="relative group" style={{ overflow: 'visible' }}>
@@ -212,16 +210,16 @@ export const Navbar = ({ menuOpen, setMenuOpen, containerRef }) => {
                 </li>
                 <li className="border-b last:border-none">
                   <a
-                    href="/classroom#digital-citizenship"
+                    href="/classroom#teach-technology"
                     className="block px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue">
-                    Digital Citizenship
+                    How I Teach Technology
                   </a>
                 </li>
                 <li className="border-b last:border-none">
                   <a
-                    href="/classroom#student-tech-engagement"
+                    href="/classroom#student-learn-tec"
                     className="block px-4 py-2 hover:bg-gray-100 hover-flame text-electricblue">
-                    Student Technology Engagement
+                    How My Students Learn with Tech
                   </a>
                 </li>
                 <li>

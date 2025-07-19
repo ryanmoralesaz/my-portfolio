@@ -56,25 +56,28 @@ export const Hero = () => {
   // Typewriter effect
   useEffect(() => {
     const currentWord = words[currentWordIndex];
-    const timer = setTimeout(() => {
-      if (!isDeleting && !isPaused) {
-        if (currentText.length < currentWord.length) {
-          setCurrentText(currentWord.substring(0, currentText.length + 1));
-        } else {
-          setIsPaused(true);
+    const timer = setTimeout(
+      () => {
+        if (!isDeleting && !isPaused) {
+          if (currentText.length < currentWord.length) {
+            setCurrentText(currentWord.substring(0, currentText.length + 1));
+          } else {
+            setIsPaused(true);
+          }
+        } else if (isPaused) {
+          setIsPaused(false);
+          setIsDeleting(true);
+        } else if (isDeleting) {
+          if (currentText.length > 0) {
+            setCurrentText(currentText.substring(0, currentText.length - 1));
+          } else {
+            setIsDeleting(false);
+            setCurrentWordIndex((prev) => (prev + 1) % words.length);
+          }
         }
-      } else if (isPaused) {
-        setIsPaused(false);
-        setIsDeleting(true);
-      } else if (isDeleting) {
-        if (currentText.length > 0) {
-          setCurrentText(currentText.substring(0, currentText.length - 1));
-        } else {
-          setIsDeleting(false);
-          setCurrentWordIndex((prev) => (prev + 1) % words.length);
-        }
-      }
-    }, isPaused ? 1500 : isDeleting ? 50 : 100);
+      },
+      isPaused ? 1500 : isDeleting ? 50 : 100
+    );
     return () => clearTimeout(timer);
   }, [currentText, isDeleting, isPaused, currentWordIndex, words]);
 
@@ -145,7 +148,9 @@ export const Hero = () => {
           h-1/2
           flex items-end justify-center
           transition-all duration-1000 ease-out delay-300 ${
-            imagesLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            imagesLoaded
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4"
           }`}
       >
         {/* Flame‐colored rectangle (always starts at left edge on mobile) */}

@@ -51,45 +51,50 @@ export default function ClassroomTechPage() {
           overlayOpacity={0.8}
           attribution="CC0 Igne B via Unsplash"
         />
-
         <section id="how-i-use-technology">
           <IframeSection
             title="How I Use Technology"
-            iframeSrc={classroomTechContent.howUseIframe}>
-            <p>{classroomTechContent.howUseText}</p>
+            iframeSrc={classroomTechContent.howUseIframe}
+          >
+            <p className="text-base">{classroomTechContent.howUseText}</p>
+            <p className="text-base">{classroomTechContent.howUseText2}</p>
           </IframeSection>
-          <ImageCarousel images={classroomTechContent.howUseCarousel} />
+          {/* <ImageCarousel images={classroomTechContent.howUseCarousel} /> */}
         </section>
-
-        <section id="digital-citizenship">
-          <TextSection title="Digital Citizenship" position="right">
+        <section id="teach-technology">
+          <TextSection title="How I Teach Technology" position="right">
             <p>{classroomTechContent.digitalCitationText}</p>
+            <p>{classroomTechContent.digitalCitationText2}</p>
+            <p>{classroomTechContent.digitalCitationText3}</p>
           </TextSection>
           <ImageCarousel
             images={classroomTechContent.digitalCitationCarousel}
           />
         </section>
-
-        <section id="student-tech-engagement">
-          <TextSection title="Student Technology Engagement" position="left">
+        <section id="student-learn-tech">
+          <TextSection
+            title="How My Students Learn with Technology"
+            position="left"
+          >
             <p>{classroomTechContent.studentEngagementText}</p>
+            <p>{classroomTechContent.studentEngagementText2}</p>
+            <p>{classroomTechContent.studentEngagementText3}</p>
           </TextSection>
           <ImageCarousel
             images={classroomTechContent.studentEngagementCarousel}
           />
         </section>
-
         <section id="culturally-relevant-learning">
           <TextSection
-            title="Culturally Relevant Learning Strategies"
-            position="right">
+            title="Learning Strategies for Social Justice"
+            position="right"
+          >
             <p>{classroomTechContent.culturallyRelevantText}</p>
           </TextSection>
-          <ImageCarousel
+          {/* <ImageCarousel
             images={classroomTechContent.culturallyRelevantCarousel}
-          />
+          /> */}
         </section>
-
         <Footer />
       </div>
     </>

@@ -8,6 +8,7 @@ export function TextSection({
   position = "left", // 'left' | 'right' | 'center'
   className = "",
   id,
+  image = null,
 }) {
   const [ref, , hasBeenVisible] = useIntersectionObserver();
   const isLeft = position === "left";
@@ -18,14 +19,16 @@ export function TextSection({
       <div
         id={id}
         ref={ref}
-        className={`w-full min-h-[400px] flex items-center justify-center bg-[rgb(var(--oldlace))] ${className}`}>
+        className={`w-full min-h-[400px] flex items-center justify-center bg-[rgb(var(--oldlace))] ${className}`}
+      >
         <div className="max-w-4xl mx-auto px-8 text-center">
           <h2
             className={`text-flame font-michroma text-xl md:text-3xl font-bold mb-8 transition-all duration-1000 ease-out leading-tight ${
               hasBeenVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-10 opacity-0"
-            }`}>
+            }`}
+          >
             {title}
           </h2>
           <div
@@ -33,7 +36,8 @@ export function TextSection({
               hasBeenVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-10 opacity-0"
-            }`}>
+            }`}
+          >
             {children}
           </div>
         </div>
@@ -45,7 +49,8 @@ export function TextSection({
     <div
       id={id}
       ref={ref}
-      className={`w-full min-h-[400px] flex flex-col md:flex-row overflow-hidden bg-[rgb(var(--oldlace)/1)] ${className}`}>
+      className={`w-full min-h-[400px] flex flex-col md:flex-row overflow-hidden bg-[rgb(var(--oldlace)/1)] ${className}`}
+    >
       {/* Title section */}
       <div
         className={`w-full md:w-1/5 flex items-center justify-center p-6 transition-all duration-1000 ease-out order-1 ${
@@ -56,7 +61,8 @@ export function TextSection({
             : isLeft
             ? "-translate-x-full opacity-0"
             : "translate-x-full opacity-0"
-        }`}>
+        }`}
+      >
         <h2 className="text-flame font-michroma text-xl md:text-2xl font-bold text-center leading-tight">
           {title}
         </h2>
@@ -70,10 +76,20 @@ export function TextSection({
           hasBeenVisible
             ? "translate-y-0 opacity-100"
             : "translate-y-10 opacity-0"
-        }`}>
+        }`}
+      >
         <div className="text-gray-700 leading-relaxed space-y-4 max-w-3xl text-sm md:text-base">
           {children}
         </div>
+        {image && (
+          <div className="flex-shrink-0 flex justify-center">
+            <img
+              src={image.src}
+              alt={image.alt}
+              className="w-48 h-48 md:w-64 md:h-64 object-fit rounded-xl shadow-lg"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

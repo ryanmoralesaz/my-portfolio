@@ -5,10 +5,11 @@ import { LoadingScreen } from "../components/layout/LoadingScreen";
 import { Navbar } from "../components/layout/Navbar";
 import { MobileMenu } from "../components/layout/MobileMenu";
 import { Hero } from "../components/sections/Hero";
-import { TextSection } from "../components/ui/TextSection"; // Only import the new one
+import { TextSection } from "../components/ui/TextSection";
 import { ImageCarousel } from "../components/ui/ImageCarousel";
 import { Footer } from "../components/layout/Footer";
 import { mainContent, imageGalleries } from "../data/mainContent";
+import { IframeSection } from "../components/sections/IFrameSection";
 
 export default function MainPage({
   hasLoadedOnce,
@@ -77,7 +78,11 @@ export default function MainPage({
         <section id="whoami">
           {" "}
           {/* Add this ID */}
-          <TextSection title={mainContent.whoAmI.title} position="left">
+          <TextSection
+            title={mainContent.whoAmI.title}
+            position="left"
+            image={{ src: "/my-identity.png", alt: "My Identity" }}
+          >
             {mainContent.whoAmI.content.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
@@ -106,23 +111,12 @@ export default function MainPage({
         </section>
 
         {/* ---- Teaching Philosophy ---- */}
-        <section id="teachingphilosophy">
-          {" "}
-          {/* Add this ID */}
-          <TextSection
-            title={mainContent.teachingPhilosophy.title}
-            position="left">
-            {mainContent.teachingPhilosophy.content.map((para, idx) => (
-              <p key={idx}>{para}</p>
-            ))}
-          </TextSection>
-        </section>
-
-        {/* ---- Third Carousel ---- */}
         <section>
-          <ImageCarousel images={mainContent.aboutMeCarousel} />
+          <IframeSection
+            title="My Recognition speech"
+            iframeSrc="https://drive.google.com/file/d/1mUWQjHulK78L5ETZ0If1B3gvWOsf4iZA/preview"
+          ></IframeSection>
         </section>
-
         <Footer />
       </div>
     </>

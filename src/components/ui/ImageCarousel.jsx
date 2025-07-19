@@ -22,7 +22,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   const PAUSE_DURATION = 5000; // ms
 
   useEffect(() => {
-    images.forEach(image => {
+    images.forEach((image) => {
       const src = typeof image === "string" ? image : image.src;
       const img = new Image();
       img.src = src;
@@ -30,7 +30,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   }, [images]);
   // Wrap index into [0..images.length-1]
   const wrapIndex = useCallback(
-    i => {
+    (i) => {
       const len = images.length;
       return ((i % len) + len) % len;
     },
@@ -38,7 +38,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   );
 
   // Decide each card’s transform/opacity/z-index
-  const getCardStyle = useCallback(offset => {
+  const getCardStyle = useCallback((offset) => {
     // Default fallback
     let baseX = offset * 120;
     let scale = 0.7;
@@ -118,7 +118,7 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
 
   // Jump directly to a dot index
   const goToIndex = useCallback(
-    targetIndex => {
+    (targetIndex) => {
       if (isTransitioning || targetIndex === currentIndex) return;
       clearAllTimers();
       setIsTransitioning(true);
@@ -135,11 +135,11 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
   );
 
   // Swipe handlers
-  const onTouchStart = e => {
+  const onTouchStart = (e) => {
     setTouchEndX(null);
     setTouchStartX(e.targetTouches[0].clientX);
   };
-  const onTouchMove = e => {
+  const onTouchMove = (e) => {
     setTouchEndX(e.targetTouches[0].clientX);
   };
   const onTouchEnd = () => {
@@ -205,7 +205,8 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}>
+      onTouchEnd={onTouchEnd}
+    >
       {/* Invisible overlay for IntersectionObserver */}
       <div ref={ref} className="absolute inset-0"></div>
 
@@ -218,13 +219,14 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
         disabled={isTransitioning}
         className={`absolute left-4 sm:left-8 lg:left-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-[rgb(var(--vanilla)/1)] hover:bg-[#5de9ea] shadow-lg transition-opacity ${
           isTransitioning ? "opacity-50 cursor-not-allowed" : "opacity-100"
-        }`}>
+        }`}
+      >
         <span className="text-flame text-xl sm:text-2xl font-bold">‹</span>
       </button>
 
       {/* ── The Three Cards “On-Stage” ── */}
       <div className="w-full h-[300px] sm:h-[400px] relative">
-        {[-2, -1, 0, 1, 2].map(offset => {
+        {[-2, -1, 0, 1, 2].map((offset) => {
           const idx = wrapIndex(currentIndex + offset);
           const image = images[idx];
           const src = typeof image === "string" ? image : image.src;
@@ -253,11 +255,12 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
             <div
               key={idx}
               className={`${sizeClass} transform-gpu`}
-              style={inlineStyle}>
+              style={inlineStyle}
+            >
               <img
                 src={src}
                 alt={description}
-                className={`w-full h-full object-cover rounded-xl shadow-xl transition-opacity duration-500 ease-in-out ${
+                className={`w-full h-full object-fit rounded-xl shadow-xl transition-opacity duration-500 ease-in-out ${
                   orientation === "portrait" ? "aspect-[3/4]" : "aspect-[4/3]"
                 }`}
                 draggable={false}
@@ -281,7 +284,8 @@ export function ImageCarousel({ images, autoPlayInterval = 2500 }) {
         disabled={isTransitioning}
         className={`absolute right-4 sm:right-8 lg:right-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-[rgb(var(--vanilla)/1)] hover:bg-[#5de9ea] shadow-lg transition-opacity ${
           isTransitioning ? "opacity-50 cursor-not-allowed" : "opacity-100"
-        }`}>
+        }`}
+      >
         <span className="text-flame text-xl sm:text-2xl font-bold">›</span>
       </button>
 
