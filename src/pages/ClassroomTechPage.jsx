@@ -57,7 +57,7 @@ export default function ClassroomTechPage() {
             iframeSrc={classroomTechContent.howUseIframe}
           >
             <p className="text-base">{classroomTechContent.howUseText}</p>
-            <p className="text-base">{classroomTechContent.howUseText2}</p>
+            <p className="text-base">{classroomTechContent.howUseText}</p>
           </IframeSection>
           {/* <ImageCarousel images={classroomTechContent.howUseCarousel} /> */}
         </section>

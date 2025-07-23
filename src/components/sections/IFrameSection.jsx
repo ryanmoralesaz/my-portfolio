@@ -9,7 +9,7 @@ export function IframeSection({ title, children, iframeSrc }) {
   return (
     <div
       ref={ref}
-      className="w-full flex flex-col md:flex-row h-auto md:h-[450px] overflow-hidden"
+      className="w-full flex flex-col md:flex-row min-h-[450px] overflow-hidden"
       style={{ backgroundColor: "#f8f5f5" }}
     >
       {/* Title section */}
