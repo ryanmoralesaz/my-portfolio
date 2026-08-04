@@ -28,19 +28,11 @@ export const Hero = () => {
     return vowels.includes(word[0].toLowerCase()) ? "an" : "a";
   };
 
-  // Preload background + headshot
+  // Preload background
   useEffect(() => {
     const img1 = new Image();
-    const img2 = new Image();
-    let loadedCount = 0;
-    const checkLoaded = () => {
-      loadedCount++;
-      if (loadedCount === 2) setImagesLoaded(true);
-    };
-    img1.onload = checkLoaded;
-    img2.onload = checkLoaded;
+    img1.onload = () => setImagesLoaded(true);
     img1.src = "/juliacameron.jpg";
-    img2.src = "/ryan-nobg.png";
   }, []);
 
   // Parallax scroll
@@ -160,16 +152,6 @@ export const Hero = () => {
             h-[60%] sm:h-[60%]
             bg-[rgb(var(--flame)/1)]"
         ></div>
-
-        {/* Headshot image (on top of the rectangle) */}
-        <img
-          src="/ryan-nobg.png"
-          alt="Ryan Morales"
-          className="absolute bottom-0
-            w-full sm:w-4/5
-            h-full
-            object-cover object-top z-20"
-        />
       </div>
 
       {/* Attribution */}
